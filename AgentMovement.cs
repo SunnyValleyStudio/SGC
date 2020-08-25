@@ -6,6 +6,7 @@ using UnityEngine;
 public class AgentMovement : MonoBehaviour
 {
     protected CharacterController characterController;
+    protected HumanoidAnimations agentAnimations;
     public float movementSpeed;
     public float gravity;
     public float rotationSpeed;
@@ -21,6 +22,7 @@ public class AgentMovement : MonoBehaviour
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
+        agentAnimations = GetComponent<HumanoidAnimations>();
     }
 
     public void HandleMovement(Vector2 input)
@@ -41,6 +43,7 @@ public class AgentMovement : MonoBehaviour
             }
             else
             {
+                agentAnimations.SetMovementFloat(0);
                 moveDirection = Vector3.zero;
             }
         }
@@ -64,7 +67,9 @@ public class AgentMovement : MonoBehaviour
         {
             if (moveDirection.magnitude > 0)
             {
+                var animationSpeedMultiplier = agentAnimations.SetCorrectAnimation(desiredRotationAngler, angleRotationThreshold, inputVerticalDirection);
                 RotateAgent();
+                moveDirection *= animationSpeedMultiplier;
             }
         }
         moveDirection.y -= gravity;
