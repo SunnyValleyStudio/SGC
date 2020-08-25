@@ -7,10 +7,11 @@ public class JumpState : BaseState
     public override void EnterState(AgentController controller)
     {
         base.EnterState(controller);
+        controllerReference.movement.HandleJump();
     }
 
     public override void Update()
     {
-        base.Update();
+        controllerReference.TransitionToState(controllerReference.movementState);
     }
 }

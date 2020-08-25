@@ -16,6 +16,8 @@ public class AgentController : MonoBehaviour
     {
         movement = GetComponent<AgentMovement>();
         input = GetComponent<PlayerInput>();
+        currentState = movementState;
+        currentState.EnterState(this);
         AssignMovementInputListeners();
 
     }
@@ -33,8 +35,6 @@ public class AgentController : MonoBehaviour
     private void Update()
     {
         currentState.Update();
-        //movement.HandleMovement(input.MovementInputVector);
-        //movement.HandleMovementDirection(input.MovementDirectionVector);
     }
 
 
