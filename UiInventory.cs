@@ -7,6 +7,10 @@ public class UiInventory : MonoBehaviour
     public GameObject inventoryGeneralPanel;
 
     public bool IsInventoryVisible { get => inventoryGeneralPanel.activeSelf; }
+    public int HotbarElementsCount { get =>hotbarUiItems.Count;}
+
+    public Dictionary<int, ItemPanelHelper> inventoryUiItems = new Dictionary<int, ItemPanelHelper>();
+    public Dictionary<int, ItemPanelHelper> hotbarUiItems = new Dictionary<int, ItemPanelHelper>();
 
     private void Awake()
     {
