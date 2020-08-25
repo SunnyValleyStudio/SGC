@@ -77,6 +77,33 @@ namespace Inventory
         {
             return storagePlayer.GetItemsData();
         }
+
+        internal void SwapStorageItemsInsideInventory(int droppedItemID, int draggedItemID)
+        {
+            var storage_IdDraggedItem = inventoryUiElementIdList.IndexOf(draggedItemID);
+            var storagedata_IdDraggedItem = storagePlayer.GetItemData(storage_IdDraggedItem);
+            var storage_IdDroppedItem = inventoryUiElementIdList.IndexOf(droppedItemID);
+
+            if (CheckItemForUiStorageNotEmpty(droppedItemID))
+            {
+                
+                var storagedata_IdDroppedItem = storagePlayer.GetItemData(storage_IdDroppedItem);
+
+                storagePlayer.SwapItemWithIndexFor(storage_IdDraggedItem, storagedata_IdDroppedItem);
+                storagePlayer.SwapItemWithIndexFor(storage_IdDroppedItem, storagedata_IdDraggedItem);
+            }
+            else
+            {
+                storagePlayer.SwapItemWithIndexFor(storage_IdDroppedItem, storagedata_IdDraggedItem);
+                storagePlayer.RemoveItemOfIndex(storage_IdDraggedItem);
+            }
+
+        }
+
+        private bool CheckItemForUiStorageNotEmpty(int ui_id)
+        {
+            return inventoryUiElementIdList.Contains(ui_id) && storagePlayer.CheckIfItemIsEmpty(inventoryUiElementIdList.IndexOf(ui_id)) == false;
+        }
     }
 }
 

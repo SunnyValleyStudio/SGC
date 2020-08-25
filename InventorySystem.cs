@@ -134,6 +134,7 @@ public class InventorySystem : MonoBehaviour
     private void DroppingItemsInventoryToInventory(int droppedItemID, int draggedItemID)
     {
         uiInventory.SwapUiItemInventoryToInventory(droppedItemID, draggedItemID);
+        inventoryData.SwapStorageItemsInsideInventory(droppedItemID, draggedItemID);
     }
 
     private void DeselectCurrentItem()
