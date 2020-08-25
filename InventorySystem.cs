@@ -9,6 +9,7 @@ using UnityEngine.EventSystems;
 public class InventorySystem : MonoBehaviour, ISavable
 {
     public Action onInventoryStateChanged;
+
     private UiInventory uiInventory;
 
     private InventorySystemData inventoryData;
@@ -27,7 +28,7 @@ public class InventorySystem : MonoBehaviour, ISavable
         inventoryData = new InventorySystemData(playerStorageSize, uiInventory.HotbarElementsCount);
         inventoryData.updateHotbarCallback += UpdateHotbarHandler;
 
-        uiInventory.AssignDropButtonHandler(DropHandler);
+        uiInventory.AssignDropButtonHandler(DropItemHandler);
         uiInventory.AssignUseButtonHandler(UseInventoryItemHandler);
 
         //ItemData artificialItem = new ItemData(0, 20, "7dd5920bb8ee4839a6bb006750c1657e", true, 100);
@@ -47,19 +48,32 @@ public class InventorySystem : MonoBehaviour, ISavable
         }
     }
 
-    internal void CraftAnItem(RecipeSO obj)
+    internal void CraftAnItem(RecipeSO recipe)
     {
-        throw new NotImplementedException();
+        foreach (var recipeIngredient in recipe.ingredientsRequired)
+        {
+            inventoryData.TakeFromItem(recipeIngredient.ingredient.ID, recipeIngredient.count);
+        }
+        inventoryData.AddToStorage(recipe);
+        UpdateInventoryItems();
+        UpdateHotbarHandler();
+        onInventoryStateChanged.Invoke();
+    }
+
+    private void UpdateInventoryItems()
+    {
+        ToggleInventory();
+        ToggleInventory();
     }
 
     internal bool CheckInventoryFull()
     {
-        throw new NotImplementedException();
+        return inventoryData.CheckIfStorageIsFull();
     }
 
-    internal bool CheckResourceAvailability(string arg1, int arg2)
+    internal bool CheckResourceAvailability(string id, int count)
     {
-        throw new NotImplementedException();
+        return inventoryData.CheckItemInStorage(id, count);
     }
 
     internal void HotbarShortKeyHandler(int hotbarKey)
@@ -98,6 +112,7 @@ public class InventorySystem : MonoBehaviour, ISavable
                 UpdateUI(ui_id, inventoryData.GetItemCountFor(ui_id));
             }
         }
+        onInventoryStateChanged.Invoke();
     }
 
     private void UpdateUI(int ui_id, int count)
@@ -105,12 +120,13 @@ public class InventorySystem : MonoBehaviour, ISavable
         uiInventory.UpdateItemInfo(ui_id, count);
     }
 
-    private void DropHandler()
+    private void DropItemHandler()
     {
         var id = inventoryData.selectedItemUIID;
         ItemSpawnManager.instance.CreateItemAtPlayersFeet(inventoryData.GetItemIdFor(id), inventoryData.GetItemCountFor(id));
         ClearUIElement(id);
         inventoryData.RemoveItemFromInventory(id);
+        onInventoryStateChanged.Invoke();
     }
 
     private void ClearUIElement(int ui_id)

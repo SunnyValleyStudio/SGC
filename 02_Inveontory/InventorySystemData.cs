@@ -73,6 +73,56 @@ namespace Inventory
             return countLeft;
         }
 
+        internal int TakeFromItem(string ID, int count)
+        {
+            int tempCount = 0;
+            tempCount += TakeFromStorage(storageHotbar, ID, count);
+            if (tempCount == count)
+            {
+                return count;
+            }
+            else
+            {
+                tempCount += TakeFromStorage(storagePlayer, ID, count);
+            }
+            return tempCount;
+        }
+
+        private int TakeFromStorage(Storage storage, string iD, int count)
+        {
+            var tempQuantity = storage.GetItemCount(iD);
+            if(tempQuantity > 0)
+            {
+                if(tempQuantity >= count)
+                {
+                    storage.TakeItemFromStorageIfContaintEnough(iD, count);
+                    return count;
+                }
+                else
+                {
+                    storage.TakeItemFromStorageIfContaintEnough(iD, tempQuantity);
+                    return tempQuantity;
+                }
+            }
+            return 0;
+        }
+
+        internal bool CheckItemInStorage(string id, int count)
+        {
+            int quantity = storagePlayer.GetItemCount(id);
+            quantity += storageHotbar.GetItemCount(id);
+            if(quantity >= count)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        internal bool CheckIfStorageIsFull()
+        {
+            return storageHotbar.CheckIfStorageIsFull() && storagePlayer.CheckIfStorageIsFull();
+        }
+
         internal bool CheckIfSelectedItemIsEmpty(int ui_id)
         {
             if (CheckItemForHotbarStorageNotEmpty(ui_id))

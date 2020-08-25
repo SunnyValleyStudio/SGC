@@ -81,6 +81,19 @@ namespace SVS.InventorySystem
             return 0;
         }
 
+        internal int GetItemCount(string ID)
+        {
+            int quantity = 0;
+            foreach (var item in storageItems)
+            {
+                if (item == null)
+                    continue;
+                if (item.ID == ID)
+                    quantity += item.Count;
+            }
+            return quantity;
+        }
+
         /// <summary>
         /// Swaps item with Index to provided InventoryItem data
         /// </summary>
