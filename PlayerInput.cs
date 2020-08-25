@@ -14,7 +14,13 @@ public class PlayerInput : MonoBehaviour
 
     public Action<int> OnHotbarKey { get; set; }
 
+    public Action OnPrimaryAction { get; set; }
+
+    public Action OnSecondaryAction { get; set; }
+
     private Camera mainCamera;
+
+    private float previousPrimaryActionInput = 0, prevousSecondaryActionInput = 0;
 
     private void Start()
     {
@@ -29,6 +35,34 @@ public class PlayerInput : MonoBehaviour
         GetJumpInput();
         GetInventoryInput();
         GetHotbarInput();
+        GetPrimaryAction();
+        GetSecondaryAction();
+    }
+
+    private void GetSecondaryAction()
+    {
+        var inputValue = Input.GetAxisRaw("Fire2");
+        if (prevousSecondaryActionInput == 0)
+        {
+            if (inputValue >= 1)
+            {
+                OnSecondaryAction?.Invoke();
+            }
+        }
+        prevousSecondaryActionInput = inputValue;
+    }
+
+    private void GetPrimaryAction()
+    {
+        var inputValue = Input.GetAxisRaw("Fire1");
+        if (previousPrimaryActionInput == 0)
+        {
+            if(inputValue >= 1)
+            {
+                OnPrimaryAction?.Invoke();
+            }
+        }
+        previousPrimaryActionInput = inputValue;
     }
 
     private void GetHotbarInput()

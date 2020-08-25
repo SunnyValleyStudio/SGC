@@ -35,7 +35,19 @@ public class AgentController : MonoBehaviour
         input.OnJump += HandleJump;
         input.OnHotbarKey += HandleHotbarInput;
         input.OnToggleInventory += HandleInventoryInput;
+        input.OnPrimaryAction += HandlePrimaryInput;
+        input.OnSecondaryAction += HandleSecondaryInput;
 
+    }
+
+    private void HandleSecondaryInput()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void HandlePrimaryInput()
+    {
+        throw new NotImplementedException();
     }
 
     private void HandleJump()
