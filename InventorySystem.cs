@@ -23,10 +23,14 @@ public class InventorySystem : MonoBehaviour
     {
         inventoryData = new InventorySystemData(playerStorageSize, uiInventory.HotbarElementsCount);
         inventoryData.updateHotbarCallback += UpdateHotbarHandler;
-        ItemData artificialItem = new ItemData(0, 20, "7dd5920bb8ee4839a6bb006750c1657e", true, 100);
-        ItemData artificialItem1 = new ItemData(0, 90, "7dd5920bb8ee4839a6bb006750c1657e", true, 100);
-        AddToStorage(artificialItem);
-        AddToStorage(artificialItem1);
+
+        uiInventory.AssignDropButtonHandler(DropHandler);
+        uiInventory.AssignUseButtonHandler(UseInventoryItemHandler);
+
+        //ItemData artificialItem = new ItemData(0, 20, "7dd5920bb8ee4839a6bb006750c1657e", true, 100);
+        //ItemData artificialItem1 = new ItemData(0, 90, "7dd5920bb8ee4839a6bb006750c1657e", true, 100);
+        //AddToStorage(artificialItem);
+        //AddToStorage(artificialItem1);
         var hotbarUiElementsList = uiInventory.GetUiElementsForHotbar();
 
         for (int i = 0; i < hotbarUiElementsList.Count; i++)
@@ -38,6 +42,23 @@ public class InventorySystem : MonoBehaviour
             hotbarUiElementsList[i].DragStopCallback += DragStopHandler;
             hotbarUiElementsList[i].DropCalback += DropHandler;
         }
+    }
+
+    private void UseInventoryItemHandler()
+    {
+        Debug.Log("Using item");
+    }
+
+    private void DropHandler()
+    {
+        ClearUIElement(inventoryData.selectedItemUIID);
+        inventoryData.RemoveItemFromInventory(inventoryData.selectedItemUIID);
+    }
+
+    private void ClearUIElement(int ui_id)
+    {
+        uiInventory.ClearItemElement(ui_id);
+        uiInventory.ToggleItemButtons(false, false);
     }
 
     private void UpdateHotbarHandler()

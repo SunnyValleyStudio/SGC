@@ -10,6 +10,8 @@ public class UiInventory : MonoBehaviour
 {
     public GameObject inventoryGeneralPanel;
 
+    public UIStorageButtonsHelper uiStorageButtonHelper;
+
     public bool IsInventoryVisible { get => inventoryGeneralPanel.activeSelf; }
     public int HotbarElementsCount { get =>hotbarUiItems.Count;}
     public RectTransform Draggableitem { get => draggableitem; }
@@ -59,6 +61,40 @@ public class UiInventory : MonoBehaviour
         {
             inventoryGeneralPanel.SetActive(false);
         }
+        uiStorageButtonHelper.HideAllButons();
+    }
+
+    public void AssignUseButtonHandler(Action handler)
+    {
+        uiStorageButtonHelper.OnUseBtnClick += handler;
+    }
+
+    internal void ClearItemElement(int ui_id)
+    {
+        GetItemFromCorrectDictionary(ui_id).ClearItem();
+    }
+
+    private ItemPanelHelper GetItemFromCorrectDictionary(int ui_id)
+    {
+        if (inventoryUiItems.ContainsKey(ui_id))
+        {
+            return inventoryUiItems[ui_id];
+        }else if (hotbarUiItems.ContainsKey(ui_id))
+        {
+            return hotbarUiItems[ui_id];
+        }
+        return null;
+    }
+
+    public void AssignDropButtonHandler(Action handler)
+    {
+        uiStorageButtonHelper.OnDropBtnClick += handler;
+    }
+
+    public void ToggleItemButtons(bool useBtn, bool dropButton)
+    {
+        uiStorageButtonHelper.ToggleDropButton(dropButton);
+        uiStorageButtonHelper.ToggleUseButton(useBtn);
     }
 
     public void PrepareInventoryItems(int playerStorageLimit)

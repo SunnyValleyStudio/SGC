@@ -73,6 +73,23 @@ namespace Inventory
             return countLeft;
         }
 
+        internal void RemoveItemFromInventory(int ui_id)
+        {
+            if (hotbarUiElementIdList.Contains(ui_id))
+            {
+                storageHotbar.RemoveItemOfIndex(hotbarUiElementIdList.IndexOf(ui_id));
+            }else if (inventoryUiElementIdList.Contains(ui_id))
+            {
+                storagePlayer.RemoveItemOfIndex(inventoryUiElementIdList.IndexOf(ui_id));
+            }
+            else
+            {
+                throw new Exception("No item with id " + ui_id);
+            }
+            ResetSelectedItem();
+
+        }
+
         public List<ItemData> GetItemsDataForHotbar()
         {
             return storageHotbar.GetItemsData();
