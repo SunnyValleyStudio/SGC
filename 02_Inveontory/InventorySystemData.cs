@@ -72,6 +72,11 @@ namespace Inventory
             }
             return countLeft;
         }
+
+        public List<ItemData> GetItemsDataForInventory()
+        {
+            return storagePlayer.GetItemsData();
+        }
     }
 }
 

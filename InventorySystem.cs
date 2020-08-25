@@ -55,7 +55,20 @@ public class InventorySystem : MonoBehaviour
 
     private void PutDataInUI()
     {
-        return;
+        var uiElementsList = uiInventory.GetUiElementsForInventory();
+        var inventoryItemsList = inventoryData.GetItemsDataForInventory();
+        for (int i = 0; i < uiElementsList.Count; i++)
+        {
+            var uiItemElement = uiElementsList[i];
+            var itemData = inventoryItemsList[i];
+            if (itemData.IsNull == false)
+            {
+                var itemName = ItemDataManager.instance.GetItemName(itemData.ID);
+                var itemSprite = ItemDataManager.instance.GetItemSprite(itemData.ID);
+                uiItemElement.SetInventoryUiElement(itemName, itemData.Count, itemSprite);
+            }
+            inventoryData.AddInventoryUiElement(uiItemElement.GetInstanceID());
+        }
     }
 
     private void PrepareUI()
