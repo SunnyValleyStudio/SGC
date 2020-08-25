@@ -126,7 +126,7 @@ public class InventorySystem : MonoBehaviour
             }
             else
             {
-                if (uiInventory.CheckItemInInventory(draggedItemID))
+                if (uiInventory.CheckItemInInventory(droppedItemID))
                 {
                     DroppingItemsHotbarToInventory(droppedItemID, draggedItemID);
                 }
@@ -142,19 +142,19 @@ public class InventorySystem : MonoBehaviour
     private void DroppingItemsHotbarToHotbar(int droppedItemID, int draggedItemID)
     {
         uiInventory.SwapUiItemHotbarToHotbar(droppedItemID, draggedItemID);
-        //inventoryData.SwapStorageItemsInsideHotbar(droppedItemID, draggedItemID);
+        inventoryData.SwapStorageItemsInsideHotbar(droppedItemID, draggedItemID);
     }
 
     private void DroppingItemsHotbarToInventory(int droppedItemID, int draggedItemID)
     {
         uiInventory.SwapUiItemHotbarToInventory(droppedItemID, draggedItemID);
-        //inventoryData.SwapStorageHotbarToInventory(droppedItemID, draggedItemID);
+        inventoryData.SwapStorageHotbarToInventory(droppedItemID, draggedItemID);
     }
 
     private void DroppingItemsInventoryToHotbar(int droppedItemID, int draggedItemID)
     {
         uiInventory.SwapUiItemInventoryToHotbar(droppedItemID, draggedItemID);
-        //inventoryData.SwapStorageInventoryToHotbar(droppedItemID, draggedItemID);
+        inventoryData.SwapStorageInventoryToHotbar(droppedItemID, draggedItemID);
     }
 
     private void DroppingItemsInventoryToInventory(int droppedItemID, int draggedItemID)
