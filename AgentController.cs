@@ -11,6 +11,8 @@ public class AgentController : MonoBehaviour
 
     public InventorySystem inventorySystem;
 
+    public CraftingSystem craftingSystem;
+
     public DetectionSystem detectionSystem;
 
     public GameManager gameManager;
@@ -32,6 +34,14 @@ public class AgentController : MonoBehaviour
         AssignInputListeners();
         detectionSystem = GetComponent<DetectionSystem>();
         gameManager = FindObjectOfType<GameManager>();
+    }
+
+    private void Start()
+    {
+        craftingSystem.onCheckResourceAvailability += inventorySystem.CheckResourceAvailability;
+        craftingSystem.onCheckInventoryFull += inventorySystem.CheckInventoryFull;
+        craftingSystem.onCraftItemRequest += inventorySystem.CraftAnItem;
+        inventorySystem.onInventoryStateChanged += craftingSystem.RecheckIngredients;
     }
 
     private void AssignInputListeners()

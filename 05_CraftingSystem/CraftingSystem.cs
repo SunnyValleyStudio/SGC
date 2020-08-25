@@ -41,7 +41,7 @@ public class CraftingSystem : MonoBehaviour
         
     }
 
-    private void RecheckIngredients()
+    public void RecheckIngredients()
     {
         if(currentRecipeUiId != -1)
         {

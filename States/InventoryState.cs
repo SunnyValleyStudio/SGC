@@ -10,6 +10,7 @@ public class InventoryState : BaseState
         base.EnterState(controller);
         Debug.Log("Open inventory window");
         controllerReference.inventorySystem.ToggleInventory();
+        controllerReference.craftingSystem.ToggleCraftingUI();
         Time.timeScale = 0;
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
@@ -23,6 +24,7 @@ public class InventoryState : BaseState
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         controllerReference.inventorySystem.ToggleInventory();
+        controllerReference.craftingSystem.ToggleCraftingUI();
         controllerReference.TransitionToState(controllerReference.movementState);
         
     }
@@ -31,6 +33,7 @@ public class InventoryState : BaseState
     {
         base.HandleMenuInput();
         controllerReference.inventorySystem.ToggleInventory();
+        controllerReference.craftingSystem.ToggleCraftingUI(true);
     }
 
 }

@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 
 public class InventorySystem : MonoBehaviour, ISavable
 {
+    public Action onInventoryStateChanged;
     private UiInventory uiInventory;
 
     private InventorySystemData inventoryData;
@@ -44,6 +45,21 @@ public class InventorySystem : MonoBehaviour, ISavable
             hotbarUiElementsList[i].DragStopCallback += DragStopHandler;
             hotbarUiElementsList[i].DropCalback += DropHandler;
         }
+    }
+
+    internal void CraftAnItem(RecipeSO obj)
+    {
+        throw new NotImplementedException();
+    }
+
+    internal bool CheckInventoryFull()
+    {
+        throw new NotImplementedException();
+    }
+
+    internal bool CheckResourceAvailability(string arg1, int arg2)
+    {
+        throw new NotImplementedException();
     }
 
     internal void HotbarShortKeyHandler(int hotbarKey)
