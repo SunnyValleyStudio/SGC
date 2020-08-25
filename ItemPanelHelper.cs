@@ -5,9 +5,12 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ItemPanelHelper : MonoBehaviour, IPointerClickHandler
+public class ItemPanelHelper : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
     public Action<int, bool> OnClickEvent;
+
+    public Action<PointerEventData> DragStopCallback, DragContinueCallback;
+    public Action<PointerEventData, int> DragStartCallback, DropCalback;
 
     public Image itemImage;
     [SerializeField]
@@ -76,5 +79,31 @@ public class ItemPanelHelper : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         OnClickEvent.Invoke(GetInstanceID(), isEmpty);
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        if (isEmpty)
+            return;
+        DragStartCallback.Invoke(eventData, GetInstanceID());
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        if (isEmpty)
+            return;
+        DragContinueCallback.Invoke(eventData);
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        if (isEmpty)
+            return;
+        DragStopCallback.Invoke(eventData);
+    }
+
+    public void OnDrop(PointerEventData eventData)
+    {
+        DropCalback.Invoke(eventData, GetInstanceID());
     }
 }
