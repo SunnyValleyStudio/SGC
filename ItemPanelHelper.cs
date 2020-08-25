@@ -2,9 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ItemPanelHelper : MonoBehaviour
+public class ItemPanelHelper : MonoBehaviour, IPointerClickHandler
 {
     public Action<int, bool> OnClickEvent;
 
@@ -70,5 +71,10 @@ public class ItemPanelHelper : MonoBehaviour
     private void ResetImage()
     {
         itemImage.sprite = backgroundSprite;
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        OnClickEvent.Invoke(GetInstanceID(), isEmpty);
     }
 }

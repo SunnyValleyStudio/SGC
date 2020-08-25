@@ -32,9 +32,11 @@ public class InventorySystem : MonoBehaviour
 
     private void UseHotbarItemHandler(int ui_id, bool isEmpty)
     {
+        Debug.Log("Using hotbar item");
         if (isEmpty)
             return;
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
+        
     }
 
     public void ToggleInventory()
@@ -51,7 +53,7 @@ public class InventorySystem : MonoBehaviour
 
     private void PutDataInUI()
     {
-        throw new NotImplementedException();
+        return;
     }
 
     private void PrepareUI()
@@ -70,9 +72,11 @@ public class InventorySystem : MonoBehaviour
 
     private void UiElementSelectedHandler(int ui_id, bool isEmpty)
     {
+        Debug.Log("Selecting inventory item");
         if (isEmpty)
             return;
         inventoryData.ResetSelectedItem();
         inventoryData.SetSelectedItemTo(ui_id);
+        
     }
 }
