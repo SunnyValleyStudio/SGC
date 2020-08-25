@@ -85,7 +85,7 @@ namespace Inventory
             }
             else
             {
-                throw new Exception("No item with ui id " + ui_id);
+                return true;
             }
         }
 
@@ -94,6 +94,7 @@ namespace Inventory
             if (CheckItemForHotbarStorageNotEmpty(ui_id))
             {
                 storageHotbar.TakeFromItemWith(hotbarUiElementIdList.IndexOf(ui_id),1);
+                //updateHotbarCallback();
             }
             else if (CheckItemForInventoryStorageNotEmpty(ui_id))
             {
