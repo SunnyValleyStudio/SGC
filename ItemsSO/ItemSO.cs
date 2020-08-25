@@ -51,5 +51,7 @@ public enum ItemType
 {
     None,
     Food,
-    Weapon
+    Weapon,
+    Material,
+    Structure
 }
