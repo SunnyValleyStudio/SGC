@@ -23,14 +23,14 @@ public class PlayerInput : MonoBehaviour
     private void GetMovementDirection()
     {
         MovementInputVector = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        Debug.Log(MovementInputVector);
+        //Debug.Log(MovementInputVector);
     }
 
     private void GetMovementInput()
     {
         var cameraForewardDirection = mainCamera.transform.forward;
-        Debug.DrawRay(mainCamera.transform.position, cameraForewardDirection * 10, Color.red);
+        //Debug.DrawRay(mainCamera.transform.position, cameraForewardDirection * 10, Color.red);
         MovementDirectionVector = Vector3.Scale(cameraForewardDirection, (Vector3.right + Vector3.forward));
-        Debug.DrawRay(mainCamera.transform.position, MovementDirectionVector * 10, Color.green);
+        //Debug.DrawRay(mainCamera.transform.position, MovementDirectionVector * 10, Color.green);
     }
 }
