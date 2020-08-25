@@ -64,6 +64,15 @@ public class UiInventory : MonoBehaviour
         uiStorageButtonHelper.HideAllButons();
     }
 
+    internal int GetHotbarElementUiIDWithIndex(int ui_index)
+    {
+        if(listOfHotbarElementsID.Count <= ui_index)
+        {
+            return -1;
+        }
+        return listOfHotbarElementsID[ui_index];
+    }
+
     public void AssignUseButtonHandler(Action handler)
     {
         uiStorageButtonHelper.OnUseBtnClick += handler;

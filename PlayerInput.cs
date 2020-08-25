@@ -68,7 +68,7 @@ public class PlayerInput : MonoBehaviour
     private void GetHotbarInput()
     {
         char hotbar0 = '0';
-        for (int i = 0; i < 9; i++)
+        for (int i = 0; i < 10; i++)
         {
             KeyCode keyCode = (KeyCode)((int)hotbar0 + i);
             if (Input.GetKeyDown(keyCode))

@@ -46,6 +46,22 @@ public class InventorySystem : MonoBehaviour
         }
     }
 
+    internal void HotbarShortKeyHandler(int hotbarKey)
+    {
+        var ui_index = hotbarKey == 0 ? 9 : hotbarKey - 1;
+        var uiElementID = uiInventory.GetHotbarElementUiIDWithIndex(ui_index);
+        if (uiElementID == -1)
+        {
+            return;
+        }
+        var id = inventoryData.GetItemIdFor(uiElementID);
+        if (id == null)
+            return;
+        var itemData = ItemDataManager.instance.GetItemData(id);
+        UseItem(itemData, uiElementID);
+
+    }
+
     private void UseInventoryItemHandler()
     {
         var itemData = ItemDataManager.instance.GetItemData(inventoryData.GetItemIdFor(inventoryData.selectedItemUIID));
@@ -108,10 +124,11 @@ public class InventorySystem : MonoBehaviour
 
     private void UseHotbarItemHandler(int ui_id, bool isEmpty)
     {
-        Debug.Log("Using hotbar item");
         if (isEmpty)
             return;
-        //throw new NotImplementedException();
+        DeselectCurrentItem();
+        var itemData = ItemDataManager.instance.GetItemData(inventoryData.GetItemIdFor(ui_id));
+        UseItem(itemData, ui_id);
         
     }
 
