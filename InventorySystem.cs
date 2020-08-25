@@ -22,8 +22,11 @@ public class InventorySystem : MonoBehaviour
     private void Start()
     {
         inventoryData = new InventorySystemData(playerStorageSize, uiInventory.HotbarElementsCount);
-        ItemData artificialItem = new ItemData(0, 10, "7dd5920bb8ee4839a6bb006750c1657e", true, 100);
+        inventoryData.updateHotbarCallback += UpdateHotbarHandler;
+        ItemData artificialItem = new ItemData(0, 20, "7dd5920bb8ee4839a6bb006750c1657e", true, 100);
+        ItemData artificialItem1 = new ItemData(0, 90, "7dd5920bb8ee4839a6bb006750c1657e", true, 100);
         AddToStorage(artificialItem);
+        AddToStorage(artificialItem1);
         var hotbarUiElementsList = uiInventory.GetUiElementsForHotbar();
 
         for (int i = 0; i < hotbarUiElementsList.Count; i++)
@@ -35,6 +38,11 @@ public class InventorySystem : MonoBehaviour
             hotbarUiElementsList[i].DragStopCallback += DragStopHandler;
             hotbarUiElementsList[i].DropCalback += DropHandler;
         }
+    }
+
+    private void UpdateHotbarHandler()
+    {
+        Debug.Log("Updating hotbar");
     }
 
     private void UseHotbarItemHandler(int ui_id, bool isEmpty)
@@ -113,22 +121,40 @@ public class InventorySystem : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Swapping between inventory -> hotbar");
+                    DroppingItemsInventoryToHotbar(droppedItemID, draggedItemID);
                 }
             }
             else
             {
                 if (uiInventory.CheckItemInInventory(draggedItemID))
                 {
-                    Debug.Log("Swapping between hotbar -> inventory");
+                    DroppingItemsHotbarToInventory(droppedItemID, draggedItemID);
                 }
                 else
                 {
-                    Debug.Log("Swapping between hotbar items");
+                    DroppingItemsHotbarToHotbar(droppedItemID, draggedItemID);
                 }
             }
             
         }
+    }
+
+    private void DroppingItemsHotbarToHotbar(int droppedItemID, int draggedItemID)
+    {
+        uiInventory.SwapUiItemHotbarToHotbar(droppedItemID, draggedItemID);
+        //inventoryData.SwapStorageItemsInsideHotbar(droppedItemID, draggedItemID);
+    }
+
+    private void DroppingItemsHotbarToInventory(int droppedItemID, int draggedItemID)
+    {
+        uiInventory.SwapUiItemHotbarToInventory(droppedItemID, draggedItemID);
+        //inventoryData.SwapStorageHotbarToInventory(droppedItemID, draggedItemID);
+    }
+
+    private void DroppingItemsInventoryToHotbar(int droppedItemID, int draggedItemID)
+    {
+        uiInventory.SwapUiItemInventoryToHotbar(droppedItemID, draggedItemID);
+        //inventoryData.SwapStorageInventoryToHotbar(droppedItemID, draggedItemID);
     }
 
     private void DroppingItemsInventoryToInventory(int droppedItemID, int draggedItemID)

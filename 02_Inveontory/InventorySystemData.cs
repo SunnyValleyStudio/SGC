@@ -104,6 +104,21 @@ namespace Inventory
         {
             return inventoryUiElementIdList.Contains(ui_id) && storagePlayer.CheckIfItemIsEmpty(inventoryUiElementIdList.IndexOf(ui_id)) == false;
         }
+
+        internal void SwapStorageItemsInsideHotbar(int droppedItemID, int draggedItemID)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void SwapStorageHotbarToInventory(int droppedItemID, int draggedItemID)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void SwapStorageInventoryToHotbar(int droppedItemID, int draggedItemID)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 
