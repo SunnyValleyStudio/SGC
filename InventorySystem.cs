@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Inventory;
 using System;
+using SVS.InventorySystem;
 
 public class InventorySystem : MonoBehaviour
 {
@@ -20,7 +21,8 @@ public class InventorySystem : MonoBehaviour
     private void Start()
     {
         inventoryData = new InventorySystemData(playerStorageSize, uiInventory.HotbarElementsCount);
-
+        ItemData artificialItem = new ItemData(0, 10, "7dd5920bb8ee4839a6bb006750c1657e", true, 100);
+        AddToStorage(artificialItem);
         var hotbarUiElementsList = uiInventory.GetUiElementsForHotbar();
 
         for (int i = 0; i < hotbarUiElementsList.Count; i++)
@@ -78,5 +80,11 @@ public class InventorySystem : MonoBehaviour
         inventoryData.ResetSelectedItem();
         inventoryData.SetSelectedItemTo(ui_id);
         
+    }
+
+    public int AddToStorage(IInventoryItem item)
+    {
+        int val = inventoryData.AddToStorage(item);
+        return val;
     }
 }
