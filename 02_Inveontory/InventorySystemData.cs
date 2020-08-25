@@ -257,6 +257,33 @@ namespace Inventory
                 return null;
             }
         }
+
+        public SavedItemSystemData GetDataToSave()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void LoadData(SavedItemSystemData dataToLoad)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    [Serializable]
+    public struct InventorySaveData
+    {
+        public List<ItemData> playerStorageItems, hotbarStorageItems;
+        public int playerStorageSize;
+    }
+
+    [Serializable]
+    public struct SavedItemSystemData
+    {
+        public List<ItemData> playerStorageItems;
+        public List<ItemData> hotbarStorageItems;
+        public int playerStorageSize;
     }
 }
+
+
 

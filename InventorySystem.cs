@@ -6,7 +6,7 @@ using System;
 using SVS.InventorySystem;
 using UnityEngine.EventSystems;
 
-public class InventorySystem : MonoBehaviour
+public class InventorySystem : MonoBehaviour, ISavable
 {
     private UiInventory uiInventory;
 
@@ -281,5 +281,16 @@ public class InventorySystem : MonoBehaviour
     {
         int val = inventoryData.AddToStorage(item);
         return val;
+    }
+
+    public string GetJsonDataToSave()
+    {
+        return JsonUtility.ToJson(inventoryData.GetDataToSave());
+    }
+
+    public void LoadJsonData(string jsonData)
+    {
+        SavedItemSystemData dataToLoad = JsonUtility.FromJson<SavedItemSystemData>(jsonData);
+        inventoryData.LoadData(dataToLoad);
     }
 }

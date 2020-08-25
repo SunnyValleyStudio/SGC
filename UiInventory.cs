@@ -60,6 +60,7 @@ public class UiInventory : MonoBehaviour
         else
         {
             inventoryGeneralPanel.SetActive(false);
+            DestroyDraggedObject();
         }
         uiStorageButtonHelper.HideAllButons();
     }
