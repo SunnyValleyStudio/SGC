@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class UiInventory : MonoBehaviour
 {
@@ -24,6 +26,11 @@ public class UiInventory : MonoBehaviour
     public GameObject hotbarPanel, storagePanel;
 
     public GameObject storagePrefab;
+
+    private RectTransform draggableitem;
+    private ItemPanelHelper draggableItemPanel;
+
+    public Canvas canvas;
 
     private void Awake()
     {
@@ -73,5 +80,46 @@ public class UiInventory : MonoBehaviour
     public List<ItemPanelHelper> GetUiElementsForInventory()
     {
         return inventoryUiItems.Values.ToList();
+    }
+
+    public void DestroyDraggedObject()
+    {
+        if(draggableitem != null)
+        {
+            Destroy(draggableitem.gameObject);
+            draggableItemPanel = null;
+            draggableitem = null;
+        }
+    }
+
+    public void CreateDraggableItem(int ui_id)
+    {
+        if (CheckItemInInventory(ui_id))
+        {
+            draggableItemPanel = inventoryUiItems[ui_id];
+        }
+        else
+        {
+            draggableItemPanel = hotbarUiItems[ui_id];
+        }
+
+        Image itemImage = draggableItemPanel.itemImage;
+        var imageObject = Instantiate(itemImage, itemImage.transform.position, Quaternion.identity, canvas.transform);
+        imageObject.raycastTarget = false;
+        imageObject.sprite = itemImage.sprite;
+
+        draggableitem = imageObject.GetComponent<RectTransform>();
+        draggableitem.sizeDelta = new Vector2(100, 100);
+
+    }
+
+    private bool CheckItemInInventory(int ui_id)
+    {
+        return inventoryUiItems.ContainsKey(ui_id);
+    }
+
+    internal void MoveDraggableItem(PointerEventData eventData)
+    {
+        //throw new NotImplementedException();
     }
 }

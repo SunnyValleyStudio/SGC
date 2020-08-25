@@ -4,6 +4,7 @@ using UnityEngine;
 using Inventory;
 using System;
 using SVS.InventorySystem;
+using UnityEngine.EventSystems;
 
 public class InventorySystem : MonoBehaviour
 {
@@ -82,7 +83,32 @@ public class InventorySystem : MonoBehaviour
         foreach (var uiItemElement in uiInventory.GetUiElementsForInventory())
         {
             uiItemElement.OnClickEvent += UiElementSelectedHandler;
+            uiItemElement.DragContinueCallback += DraggingHandler;
+            uiItemElement.DragStartCallback += DragStartHandler;
+            uiItemElement.DragStopCallback += DragStopHandler;
+            uiItemElement.DropCalback += DropHandler;
         }
+    }
+
+    private void DropHandler(PointerEventData eventData, int ui_id)
+    {
+        
+    }
+
+    private void DragStopHandler(PointerEventData eventData)
+    {
+        uiInventory.DestroyDraggedObject();
+    }
+
+    private void DragStartHandler(PointerEventData eventData, int ui_id)
+    {
+        uiInventory.DestroyDraggedObject();
+        uiInventory.CreateDraggableItem(ui_id);
+    }
+
+    private void DraggingHandler(PointerEventData eventData)
+    {
+        uiInventory.MoveDraggableItem(eventData);
     }
 
     private void UiElementSelectedHandler(int ui_id, bool isEmpty)
