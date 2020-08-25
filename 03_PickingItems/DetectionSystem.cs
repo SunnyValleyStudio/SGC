@@ -45,5 +45,6 @@ public class DetectionSystem : MonoBehaviour
         {
             currentCollider = collidersList[0];
         }
+        Debug.Log(collidersList.Count);
     } 
 }

@@ -39,6 +39,7 @@ public class MovementState : BaseState
     public override void Update()
     {
         base.Update();
+        controllerReference.detectionSystem.PerformDetection(controllerReference.input.MovementDirectionVector);
         HandleMovement(controllerReference.input.MovementInputVector);
         HandleCameraDirection(controllerReference.input.MovementDirectionVector);
         if(controllerReference.movement.IsGround() == false)

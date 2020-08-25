@@ -11,6 +11,8 @@ public class AgentController : MonoBehaviour
 
     public InventorySystem inventorySystem;
 
+    public DetectionSystem detectionSystem;
+
     BaseState currentState;
     public readonly BaseState movementState = new MovementState();
     public readonly BaseState jumpState = new JumpState();
@@ -25,6 +27,7 @@ public class AgentController : MonoBehaviour
         currentState = movementState;
         currentState.EnterState(this);
         AssignInputListeners();
+        detectionSystem = GetComponent<DetectionSystem>();
     }
 
     private void AssignInputListeners()
@@ -66,5 +69,14 @@ public class AgentController : MonoBehaviour
     {
         currentState = state;
         currentState.EnterState(this);
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (Application.isPlaying)
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position + input.MovementDirectionVector, detectionSystem.detectionRadius);
+        }
     }
 }
