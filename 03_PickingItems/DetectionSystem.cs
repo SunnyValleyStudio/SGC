@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,8 +7,11 @@ public class DetectionSystem : MonoBehaviour
 {
     private List<Collider> collidersList = new List<Collider>();
     private Collider currentCollider;
+    private List<Material[]> currentColliderMaterialsList = new List<Material[]>();
 
     public LayerMask objectDetectionMask;
+
+    public Material selectionMaterial;
 
     public float detectionRadius;
 
@@ -47,4 +51,55 @@ public class DetectionSystem : MonoBehaviour
         }
         Debug.Log(collidersList.Count);
     } 
+
+    private void SwapToSelectionMaterial()
+    {
+        currentColliderMaterialsList.Clear();
+        if (currentCollider.transform.childCount > 0)
+        {
+            foreach (Transform child in currentCollider.transform)
+            {
+                PrepareRendererToSwapMaterials();
+            }
+        }
+        else
+        {
+            PrepareRendererToSwapMaterials();
+
+        }
+    }
+
+    private void PrepareRendererToSwapMaterials()
+    {
+        var renderer = currentCollider.GetComponent<Renderer>();
+        currentColliderMaterialsList.Add(renderer.sharedMaterials);
+        SwapMaterials(renderer);
+    }
+
+    private void SwapMaterials(Renderer renderer)
+    {
+        Material[] matArray = new Material[renderer.materials.Length];
+        for (int i = 0; i < matArray.Length; i++)
+        {
+            matArray[i] = selectionMaterial;
+        }
+        renderer.materials = matArray;
+    }
+
+    private void SwapToOriginalMaterial()
+    {
+        if(currentColliderMaterialsList.Count > 0)
+        {
+            for (int i = 0; i < currentColliderMaterialsList.Count; i++)
+            {
+                var renderer = currentCollider.transform.GetChild(i).GetComponent<Renderer>();
+                renderer.materials = currentColliderMaterialsList[i];
+            }
+        }
+        else
+        {
+            var renderer = currentCollider.GetComponent<Renderer>();
+            renderer.materials = currentColliderMaterialsList[0];
+        }
+    }
 }
