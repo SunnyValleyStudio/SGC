@@ -21,6 +21,7 @@ public class CraftingSystem : MonoBehaviour
         uiCrafting = GetComponent<UiCrafting>();
         uiCrafting.onRecipeClicked += RecipeClickedHandler;
         uiCrafting.onCraftButtonClicked += CraftRecipeHandler;
+        uiCrafting.BlockCraftButton();
     }
 
     public void ToggleCraftingUI(bool saveLastViewedRecipe = false)
@@ -70,7 +71,7 @@ public class CraftingSystem : MonoBehaviour
             bool enoughItemFlag = onCheckResourceAvailability.Invoke(key, ingredientsIdCountDict[key]);
             if(blockCraftButton == false)
             {
-                blockCraftButton = enoughItemFlag;
+                blockCraftButton = !enoughItemFlag;
             }
             uiCrafting.AddIngredient(ItemDataManager.instance.GetItemName(key), ItemDataManager.instance.GetItemSprite(key), ingredientsIdCountDict[key], enoughItemFlag); 
         }

@@ -46,7 +46,7 @@ public class ItemSpawnManager : MonoBehaviour
                 {
                     for (int i = 0; i < spawner.count; i++)
                     {
-                        CreateItemInPlace(itemSpawnerTransform.position + randomPosition, spawner.itemToSpawn, spawner.count);
+                        CreateItemInPlace(itemSpawnerTransform.position + randomPosition, spawner.itemToSpawn, 1);
                         randomPosition = GenerateRandomPosition(spawner.radius);
                         
                     }
