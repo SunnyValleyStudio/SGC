@@ -14,6 +14,8 @@ public class InventorySystem : MonoBehaviour
 
     public int playerStorageSize = 20;
 
+    public InteractionManager interactionManager;
+
     private void Awake()
     {
         uiInventory = GetComponent<UiInventory>(); 
@@ -46,7 +48,16 @@ public class InventorySystem : MonoBehaviour
 
     private void UseInventoryItemHandler()
     {
-        Debug.Log("Using item");
+        var itemData = ItemDataManager.instance.GetItemData(inventoryData.GetItemIdFor(inventoryData.selectedItemUIID));
+        UseItem(itemData, inventoryData.selectedItemUIID);
+    }
+
+    private void UseItem(ItemSO itemData, int ui_id)
+    {
+        if (interactionManager.UseItem(itemData))
+        {
+            inventoryData.TakeOneFromItem(ui_id);
+        }
     }
 
     private void DropHandler()

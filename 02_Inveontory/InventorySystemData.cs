@@ -73,6 +73,22 @@ namespace Inventory
             return countLeft;
         }
 
+        internal void TakeOneFromItem(int ui_id)
+        {
+            if (CheckItemForHotbarStorageNotEmpty(ui_id))
+            {
+                storageHotbar.TakeFromItemWith(hotbarUiElementIdList.IndexOf(ui_id),1);
+            }
+            else if (CheckItemForInventoryStorageNotEmpty(ui_id))
+            {
+                storagePlayer.TakeFromItemWith(hotbarUiElementIdList.IndexOf(ui_id), 1);
+            }
+            else
+            {
+                throw new Exception("No ite with ui id " + ui_id);
+            }
+        }
+
         internal int GetItemCountFor(int ui_id)
         {
             if (CheckItemForHotbarStorageNotEmpty(ui_id))
