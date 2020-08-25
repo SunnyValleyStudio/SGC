@@ -109,7 +109,7 @@ public class InventorySystem : MonoBehaviour
             {
                 if (uiInventory.CheckItemInInventory(droppedItemID))
                 {
-                    Debug.Log("Swapping between inventory items");
+                    DroppingItemsInventoryToInventory(droppedItemID, draggedItemID);
                 }
                 else
                 {
@@ -129,6 +129,11 @@ public class InventorySystem : MonoBehaviour
             }
             
         }
+    }
+
+    private void DroppingItemsInventoryToInventory(int droppedItemID, int draggedItemID)
+    {
+        uiInventory.SwapUiItemInventoryToInventory(droppedItemID, draggedItemID);
     }
 
     private void DeselectCurrentItem()

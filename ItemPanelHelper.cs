@@ -15,7 +15,8 @@ public class ItemPanelHelper : MonoBehaviour, IPointerClickHandler, IBeginDragHa
     public Image itemImage;
     [SerializeField]
     private Text nameText, countText;
-    public string itemName, itemCount;
+    public string itemName;
+    public int itemCount;
     public bool isEmpty = true;
     public Outline outline;
     public bool isHotbarItem = false;
@@ -35,10 +36,17 @@ public class ItemPanelHelper : MonoBehaviour, IPointerClickHandler, IBeginDragHa
     public void SetInventoryUiElement(string name, int count, Sprite image)
     {
         itemName = name;
-        itemCount = count + "";
+        itemCount = count;
         if (!isHotbarItem)
             nameText.text = itemName;
-        countText.text = itemCount;
+        if (count < 0)
+        {
+            countText.text = "";
+        }
+        else
+        {
+            countText.text = itemCount + "";
+        }
         isEmpty = false;
         SetImageSprite(image);
     }
@@ -57,8 +65,8 @@ public class ItemPanelHelper : MonoBehaviour, IPointerClickHandler, IBeginDragHa
     private void ClearItem()
     {
         itemName = "";
-        itemCount = "";
-        countText.text = itemCount;
+        itemCount = -1;
+        countText.text = "";
         if (!isHotbarItem)
             nameText.text = itemName;
         ResetImage();

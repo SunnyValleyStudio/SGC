@@ -126,4 +126,19 @@ public class UiInventory : MonoBehaviour
         var valueToAdd = eventData.delta / canvas.scaleFactor;
         draggableitem.anchoredPosition += valueToAdd;
     }
+
+    internal void SwapUiItemInventoryToInventory(int droppedItemID, int draggedItemID)
+    {
+        var tempName = inventoryUiItems[draggedItemID].itemName;
+        var tempCount = inventoryUiItems[draggedItemID].itemCount;
+        var tempSprite = inventoryUiItems[draggedItemID].itemImage.sprite;
+        var tempisEmpty = inventoryUiItems[draggedItemID].isEmpty;
+
+        var droppedItemData = inventoryUiItems[droppedItemID];
+        inventoryUiItems[draggedItemID].SwapWithData(droppedItemData.itemName, droppedItemData.itemCount, droppedItemData.itemImage.sprite, droppedItemData.isEmpty);
+
+        inventoryUiItems[droppedItemID].SwapWithData(tempName, tempCount, tempSprite, tempisEmpty);
+
+        DestroyDraggedObject();
+    }
 }
