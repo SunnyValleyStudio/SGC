@@ -16,5 +16,6 @@ public class AgentController : MonoBehaviour
     private void Update()
     {
         movement.HandleMovement(input.MovementInputVector);
+        movement.HandleMovementDirection(input.MovementDirectionVector);
     }
 }

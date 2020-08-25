@@ -48,11 +48,34 @@ public class AgentMovement : MonoBehaviour
         
     }
 
+    public void HandleMovementDirection(Vector3 input)
+    {
+        desiredRotationAngler = Vector3.Angle(transform.forward, input);
+        var crossProduct = Vector3.Cross(transform.forward, input).y;
+        if(crossProduct < 0)
+        {
+            desiredRotationAngler *= -1;
+        }
+    }
 
     private void Update()
     {
+        if (characterController.isGrounded)
+        {
+            if (moveDirection.magnitude > 0)
+            {
+                RotateAgent();
+            }
+        }
         moveDirection.y -= gravity;
         characterController.Move(moveDirection * Time.deltaTime);
     }
 
+    private void RotateAgent()
+    {
+        if(desiredRotationAngler > angleRotationThreshold || desiredRotationAngler < -angleRotationThreshold)
+        {
+            transform.Rotate(Vector3.up * desiredRotationAngler * rotationSpeed * Time.deltaTime);
+        }
+    }
 }
