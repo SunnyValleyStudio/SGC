@@ -10,6 +10,7 @@ public class AgentMovement : MonoBehaviour
     public float movementSpeed;
     public float gravity;
     public float rotationSpeed;
+    public float jumpSpeed;
 
     public int angleRotationThreshold;
 
@@ -18,6 +19,8 @@ public class AgentMovement : MonoBehaviour
     protected float desiredRotationAngler = 0;
 
     int inputVerticalDirection = 0;
+
+    bool isJumping = false;
 
     private void Start()
     {
@@ -61,6 +64,14 @@ public class AgentMovement : MonoBehaviour
         }
     }
 
+    public void HandleJump()
+    {
+        if (characterController.isGrounded)
+        {
+            isJumping = true;
+        }
+    }
+
     private void Update()
     {
         if (characterController.isGrounded)
@@ -73,6 +84,12 @@ public class AgentMovement : MonoBehaviour
             }
         }
         moveDirection.y -= gravity;
+        if (isJumping)
+        {
+            isJumping = false;
+            moveDirection.y = jumpSpeed;
+            agentAnimations.SetMovementFloat(0);
+        }
         characterController.Move(moveDirection * Time.deltaTime);
     }
 
