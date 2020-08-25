@@ -38,6 +38,7 @@ public class DetectionSystem : MonoBehaviour
         {
             if (currentCollider != null)
             {
+                SwapToOriginalMaterial();
                 currentCollider = null;
             }
             return;
@@ -45,11 +46,13 @@ public class DetectionSystem : MonoBehaviour
         if (currentCollider == null)
         {
             currentCollider = collidersList[0];
+            SwapToSelectionMaterial();
         }else if (collidersList.Contains(currentCollider) == false)
         {
+            SwapToOriginalMaterial();
             currentCollider = collidersList[0];
+            SwapToSelectionMaterial();
         }
-        Debug.Log(collidersList.Count);
     } 
 
     private void SwapToSelectionMaterial()
@@ -88,7 +91,7 @@ public class DetectionSystem : MonoBehaviour
 
     private void SwapToOriginalMaterial()
     {
-        if(currentColliderMaterialsList.Count > 0)
+        if(currentColliderMaterialsList.Count > 1)
         {
             for (int i = 0; i < currentColliderMaterialsList.Count; i++)
             {
