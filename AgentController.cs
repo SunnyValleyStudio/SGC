@@ -115,14 +115,5 @@ public class AgentController : MonoBehaviour
         }
     }
 
-    public void EquipToHand(GameObject model)
-    {
-        foreach (Transform child in itemSlot)
-        {
-            Destroy(child.gameObject);
-        }
-        var item = Instantiate(model, itemSlot);
-        item.transform.localPosition = Vector3.zero;
-        item.transform.localRotation = Quaternion.identity;
-    }
+
 }

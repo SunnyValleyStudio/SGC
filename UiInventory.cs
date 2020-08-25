@@ -135,6 +135,11 @@ public class UiInventory : MonoBehaviour
         return inventoryUiItems.Values.ToList();
     }
 
+    internal void ToggleEquipSelectedItem(int equippedUI_ID)
+    {
+        throw new NotImplementedException();
+    }
+
     public void DestroyDraggedObject()
     {
         if(draggableitem != null)

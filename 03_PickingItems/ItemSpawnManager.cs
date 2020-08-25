@@ -38,7 +38,7 @@ public class ItemSpawnManager : MonoBehaviour
             {
                 Vector3 randomPosition = GenerateRandomPosition(spawner.radius);
 
-                if(spawner.singleObject && spawner.itemToSpawn.isStackable)
+                if (spawner.singleObject && spawner.itemToSpawn.isStackable)
                 {
                     CreateItemInPlace(itemSpawnerTransform.position + randomPosition, spawner.itemToSpawn, spawner.count);
                 }
@@ -48,7 +48,7 @@ public class ItemSpawnManager : MonoBehaviour
                     {
                         CreateItemInPlace(itemSpawnerTransform.position + randomPosition, spawner.itemToSpawn, 1);
                         randomPosition = GenerateRandomPosition(spawner.radius);
-                        
+
                     }
                 }
                 yield return new WaitForEndOfFrame();
@@ -83,5 +83,22 @@ public class ItemSpawnManager : MonoBehaviour
         pickableItem.SetCount(currentItemCount);
         pickableItem.dataSource = ItemDataManager.instance.GetItemData(itemID);
         itemGameObject.layer = LayerMask.NameToLayer(pickableLayerMask);
+    }
+
+    internal void RemoveItemFromPlayerHand()
+    {
+        foreach (Transform child in playerTransform.GetComponent<AgentController>().itemSlot)
+        {
+            Destroy(child.gameObject);
+        }
+
+    }
+
+    internal void CreateItemObjectInPlayerHand(string itemID)
+    {
+        var itemPrefab = ItemDataManager.instance.GetItemPrefab(itemID);
+        var item = Instantiate(itemPrefab, playerTransform.GetComponent<AgentController>().itemSlot);
+        item.transform.localPosition = Vector3.zero;
+        item.transform.localRotation = Quaternion.identity;
     }
 }

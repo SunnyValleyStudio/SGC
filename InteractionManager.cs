@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,6 +22,21 @@ public class InteractionManager : MonoBehaviour
                 return false;
             default:
                 Debug.Log("Cant use an item of type " + itemType.ToString());
+                break;
+        }
+        return false;
+    }
+
+    internal bool EquipItem(ItemSO itemData)
+    {
+        var itemType = itemData.GetItemType();
+        switch (itemType)
+        {
+            case ItemType.None:
+                throw new Exception("Item can't be none");
+            case ItemType.Weapon:
+                return true;
+            default:
                 break;
         }
         return false;

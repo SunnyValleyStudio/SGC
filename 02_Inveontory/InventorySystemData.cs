@@ -23,6 +23,7 @@ namespace Inventory
 
         public int PlayerStorageLimit { get => storagePlayer.StorageLimit; }
         public bool ItemEquipped { get => true;}
+        public int EquippedUI_ID { get; internal set; }
 
         public void SetSelectedItemTo(int ui_id)
         {
@@ -138,6 +139,16 @@ namespace Inventory
             {
                 return true;
             }
+        }
+
+        internal void UnequipItem()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void EquipItem(int ui_id)
+        {
+            throw new NotImplementedException();
         }
 
         internal void TakeOneFromItem(int ui_id)

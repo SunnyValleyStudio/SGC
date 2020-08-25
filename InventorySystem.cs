@@ -113,8 +113,25 @@ public class InventorySystem : MonoBehaviour, ISavable
             {
                 UpdateUI(ui_id, inventoryData.GetItemCountFor(ui_id));
             }
+            onInventoryStateChanged.Invoke();
+        }else if (interactionManager.EquipItem(itemData))
+        {
+            DeselectCurrentItem();
+            ItemSpawnManager.instance.RemoveItemFromPlayerHand();
+            if (inventoryData.ItemEquipped)
+            {
+                if(inventoryData.EquippedUI_ID == ui_id)
+                {
+                    uiInventory.ToggleEquipSelectedItem(inventoryData.EquippedUI_ID);
+                    inventoryData.UnequipItem();
+                    return;
+                }
+            }
+            inventoryData.EquipItem(ui_id);
+            uiInventory.ToggleEquipSelectedItem(ui_id);
+            ItemSpawnManager.instance.CreateItemObjectInPlayerHand(itemData.ID);
         }
-        onInventoryStateChanged.Invoke();
+        
     }
 
     private void UpdateUI(int ui_id, int count)
@@ -309,6 +326,13 @@ public class InventorySystem : MonoBehaviour, ISavable
         inventoryData.SetSelectedItemTo(ui_id);
         uiInventory.HighlightSelectedItem(ui_id);
         uiInventory.ToggleItemButtons(ItemDataManager.instance.IsItemUsabel(inventoryData.GetItemIdFor(inventoryData.selectedItemUIID)),true);
+        if (inventoryData.ItemEquipped)
+        {
+            if(ui_id == inventoryData.EquippedUI_ID)
+            {
+                uiInventory.ToggleItemButtons(ItemDataManager.instance.IsItemUsabel(inventoryData.GetItemIdFor(inventoryData.selectedItemUIID)), false);
+            }
+        }
     }
 
     public int AddToStorage(IInventoryItem item)
