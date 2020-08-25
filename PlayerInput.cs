@@ -10,6 +10,10 @@ public class PlayerInput : MonoBehaviour
 
     public Action OnJump { get; set; }
 
+    public Action OnToggleInventory { get; set; }
+
+    public Action<int> OnHotbarKey { get; set; }
+
     private Camera mainCamera;
 
     private void Start()
@@ -23,6 +27,30 @@ public class PlayerInput : MonoBehaviour
         GetMovementInput();
         GetMovementDirection();
         GetJumpInput();
+        GetInventoryInput();
+        GetHotbarInput();
+    }
+
+    private void GetHotbarInput()
+    {
+        char hotbar0 = '0';
+        for (int i = 0; i < 9; i++)
+        {
+            KeyCode keyCode = (KeyCode)((int)hotbar0 + i);
+            if (Input.GetKeyDown(keyCode))
+            {
+                OnHotbarKey?.Invoke(i);
+                return;
+            }
+        }
+    }
+
+    private void GetInventoryInput()
+    {
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            OnToggleInventory?.Invoke();
+        }
     }
 
     private void GetJumpInput()
