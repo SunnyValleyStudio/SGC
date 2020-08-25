@@ -9,4 +9,9 @@ public class WeaponItemSO : ItemSO
 
     [Range(0,1)]
     public float criticalChance = 0.2f;
+
+    public override bool IsUsable()
+    {
+        return true;
+    }
 }

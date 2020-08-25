@@ -210,6 +210,10 @@ public class InventorySystem : MonoBehaviour, ISavable
                 uiItemElement.SetItemUI(itemName, itemData.Count, itemSprite);
             }
             inventoryData.AddInventoryUiElement(uiItemElement.GetInstanceID());
+            if(inventoryData.EquippedUI_ID == uiItemElement.GetInstanceID())
+            {
+                uiItemElement.ToggleEquippedIndicator();
+            }
         }
     }
 

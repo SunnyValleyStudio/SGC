@@ -135,9 +135,16 @@ public class UiInventory : MonoBehaviour
         return inventoryUiItems.Values.ToList();
     }
 
-    internal void ToggleEquipSelectedItem(int equippedUI_ID)
+    internal void ToggleEquipSelectedItem(int itemID)
     {
-        throw new NotImplementedException();
+        if (hotbarUiItems.ContainsKey(itemID))
+        {
+            hotbarUiItems[itemID].ToggleEquippedIndicator();
+        }
+        else
+        {
+            inventoryUiItems[itemID].ToggleEquippedIndicator();
+        }
     }
 
     public void DestroyDraggedObject()

@@ -22,8 +22,27 @@ namespace Inventory
         }
 
         public int PlayerStorageLimit { get => storagePlayer.StorageLimit; }
-        public bool ItemEquipped { get => true;}
-        public int EquippedUI_ID { get; internal set; }
+
+        private int equippedItemStorageIndex = -1;
+        private Storage equippedItemStorage = null;
+        public bool ItemEquipped { get => equippedItemStorageIndex != -1; }
+        public int EquippedUI_ID { 
+            get 
+            { 
+                if(equippedItemStorage == null)
+                {
+                    return -1;
+                }
+                if(equippedItemStorage == storageHotbar)
+                {
+                    return hotbarUiElementIdList[equippedItemStorageIndex];
+                }
+                else
+                {
+                    return inventoryUiElementIdList[equippedItemStorageIndex];
+                }
+            } 
+        }
 
         public void SetSelectedItemTo(int ui_id)
         {
@@ -143,12 +162,29 @@ namespace Inventory
 
         internal void UnequipItem()
         {
-            throw new NotImplementedException();
+            if(equippedItemStorageIndex != -1)
+            {
+                equippedItemStorageIndex = -1;
+                equippedItemStorage = null;
+            }
         }
 
         internal void EquipItem(int ui_id)
         {
-            throw new NotImplementedException();
+            UnequipItem();
+            if (hotbarUiElementIdList.Contains(ui_id))
+            {
+                equippedItemStorageIndex = hotbarUiElementIdList.IndexOf(ui_id);
+                equippedItemStorage = storageHotbar;
+            }else if (inventoryUiElementIdList.Contains(ui_id) && storagePlayer.CheckIfItemIsEmpty(inventoryUiElementIdList.IndexOf(ui_id))==false)
+            {
+                equippedItemStorageIndex = inventoryUiElementIdList.IndexOf(ui_id);
+                equippedItemStorage = storagePlayer;
+            }
+            else
+            {
+                throw new Exception("No item with ui_id " + ui_id);
+            }
         }
 
         internal void TakeOneFromItem(int ui_id)
