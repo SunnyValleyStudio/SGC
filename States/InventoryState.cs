@@ -12,6 +12,7 @@ public class InventoryState : BaseState
         controllerReference.inventorySystem.ToggleInventory();
         Time.timeScale = 0;
         Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
     }
 
     public override void HandleInventoryInput()
@@ -20,10 +21,10 @@ public class InventoryState : BaseState
         Debug.Log("Close Inventory");
         Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         controllerReference.inventorySystem.ToggleInventory();
         controllerReference.TransitionToState(controllerReference.movementState);
         
     }
-
 
 }

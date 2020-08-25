@@ -34,4 +34,9 @@ public abstract class BaseState
     public virtual void HandleSecondaryAction()
     {
     }
+
+    public virtual void HandleMenuInput()
+    {
+
+    }
 }

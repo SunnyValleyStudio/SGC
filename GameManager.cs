@@ -26,11 +26,14 @@ public class GameManager : MonoBehaviour
 
     public void ToggleGameMenu()
     {
-        if(gameMenu.MenuVisible == false)
+        if (gameMenu.MenuVisible == false)
         {
+
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true;
-            if(Time.timeScale == 0)
+
+
+            if (Time.timeScale == 0)
             {
                 timeAlreadyStopped = true;
             }
@@ -49,8 +52,12 @@ public class GameManager : MonoBehaviour
             {
                 Time.timeScale = 1;
             }
+
+
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+
+
         }
         gameMenu.ToggleMenu();
     }
@@ -69,7 +76,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void ExitToMainMenu()
@@ -79,7 +86,7 @@ public class GameManager : MonoBehaviour
 
     internal void StartNextScene()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+1);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     internal void LoadSavedGame()
