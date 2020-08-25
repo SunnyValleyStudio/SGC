@@ -23,6 +23,7 @@ public class AgentController : MonoBehaviour
     public readonly BaseState fallingState = new FallingState();
     public readonly BaseState inventoryState = new InventoryState();
     public readonly BaseState interactState = new InteractState();
+    public readonly BaseState attackState = new AttackState();
 
     private void OnEnable()
     {

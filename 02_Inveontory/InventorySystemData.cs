@@ -22,6 +22,7 @@ namespace Inventory
         }
 
         public int PlayerStorageLimit { get => storagePlayer.StorageLimit; }
+        public bool ItemEquipped { get => true;}
 
         public void SetSelectedItemTo(int ui_id)
         {

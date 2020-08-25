@@ -164,10 +164,18 @@ public class AgentMovement : MonoBehaviour
         }
     }
 
-    public void StpMovementImmediatelly()
+    public void StopMovementImmediatelly()
     {
         moveDirection = Vector3.zero;
         finishedJumping = false;
+    }
+
+    public void StopMovement()
+    {
+        moveDirection = Vector3.zero;
+        desiredRotationAngle = 0;
+        agentAnimations.SetMovementFloat(0);
+        inputVerticalDirection = 0;
     }
 
     public bool HasFinishedJumping()

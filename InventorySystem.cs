@@ -18,6 +18,8 @@ public class InventorySystem : MonoBehaviour, ISavable
 
     public InteractionManager interactionManager;
 
+    public bool WeaponEquipped { get => inventoryData.ItemEquipped;}
+
     private void Awake()
     {
         uiInventory = GetComponent<UiInventory>(); 
