@@ -14,7 +14,7 @@ public class AgentMovement : MonoBehaviour
 
     public int angleRotationThreshold;
 
-    protected Vector3 moveDirection = Vector3.zero;
+    public Vector3 moveDirection = Vector3.zero;
 
     public bool IsGround()
     {
@@ -112,6 +112,7 @@ public class AgentMovement : MonoBehaviour
     public void StpMovementImmediatelly()
     {
         moveDirection = Vector3.zero;
+        finishedJumping = false;
     }
 
     public bool HasFinishedJumping()
@@ -119,8 +120,18 @@ public class AgentMovement : MonoBehaviour
         return finishedJumping;
     }
 
-    public void SetFinishedJumping()
+    public void SetFinishedJumping(bool value)
+    {
+        finishedJumping = value;
+    }
+
+    public void SetFinishedJumpingTrue()
     {
         finishedJumping = true;
+    }
+
+    public void SetFinishedJumpingFalse()
+    {
+        finishedJumping = false;
     }
 }
