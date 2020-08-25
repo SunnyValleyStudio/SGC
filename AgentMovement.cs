@@ -82,7 +82,7 @@ public class AgentMovement : MonoBehaviour
     {
         if (characterController.isGrounded)
         {
-            if (moveDirection.magnitude > 0)
+            if (moveDirection.magnitude > 0 && finishedJumping)
             {
                 var animationSpeedMultiplier = agentAnimations.SetCorrectAnimation(desiredRotationAngler, angleRotationThreshold, inputVerticalDirection);
                 RotateAgent();
