@@ -30,6 +30,10 @@ public class InventorySystem : MonoBehaviour
         {
             inventoryData.AddHotbarUiElement(hotbarUiElementsList[i].GetInstanceID());
             hotbarUiElementsList[i].OnClickEvent += UseHotbarItemHandler;
+            hotbarUiElementsList[i].DragContinueCallback += DraggingHandler;
+            hotbarUiElementsList[i].DragStartCallback += DragStartHandler;
+            hotbarUiElementsList[i].DragStopCallback += DragStopHandler;
+            hotbarUiElementsList[i].DropCalback += DropHandler;
         }
     }
 
@@ -90,9 +94,46 @@ public class InventorySystem : MonoBehaviour
         }
     }
 
-    private void DropHandler(PointerEventData eventData, int ui_id)
+    private void DropHandler(PointerEventData eventData, int droppedItemID)
     {
-        
+        if(uiInventory.Draggableitem != null)
+        {
+            var draggedItemID = uiInventory.DraggableItemPanel.GetInstanceID();
+            if (draggedItemID == droppedItemID)
+            {
+                return;
+            }
+            DeselectCurrentItem();
+            if (uiInventory.CheckItemInInventory(draggedItemID))
+
+            {
+                if (uiInventory.CheckItemInInventory(droppedItemID))
+                {
+                    Debug.Log("Swapping between inventory items");
+                }
+                else
+                {
+                    Debug.Log("Swapping between inventory -> hotbar");
+                }
+            }
+            else
+            {
+                if (uiInventory.CheckItemInInventory(draggedItemID))
+                {
+                    Debug.Log("Swapping between hotbar -> inventory");
+                }
+                else
+                {
+                    Debug.Log("Swapping between hotbar items");
+                }
+            }
+            
+        }
+    }
+
+    private void DeselectCurrentItem()
+    {
+        inventoryData.ResetSelectedItem();
     }
 
     private void DragStopHandler(PointerEventData eventData)
@@ -116,7 +157,7 @@ public class InventorySystem : MonoBehaviour
         Debug.Log("Selecting inventory item");
         if (isEmpty)
             return;
-        inventoryData.ResetSelectedItem();
+        DeselectCurrentItem();
         inventoryData.SetSelectedItemTo(ui_id);
         
     }

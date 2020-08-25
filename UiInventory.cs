@@ -12,6 +12,8 @@ public class UiInventory : MonoBehaviour
 
     public bool IsInventoryVisible { get => inventoryGeneralPanel.activeSelf; }
     public int HotbarElementsCount { get =>hotbarUiItems.Count;}
+    public RectTransform Draggableitem { get => draggableitem; }
+    public ItemPanelHelper DraggableItemPanel { get => draggableItemPanel; }
 
     public Dictionary<int, ItemPanelHelper> inventoryUiItems = new Dictionary<int, ItemPanelHelper>();
     public Dictionary<int, ItemPanelHelper> hotbarUiItems = new Dictionary<int, ItemPanelHelper>();
@@ -113,13 +115,15 @@ public class UiInventory : MonoBehaviour
 
     }
 
-    private bool CheckItemInInventory(int ui_id)
+    public bool CheckItemInInventory(int ui_id)
     {
         return inventoryUiItems.ContainsKey(ui_id);
     }
 
+
     internal void MoveDraggableItem(PointerEventData eventData)
     {
-        //throw new NotImplementedException();
+        var valueToAdd = eventData.delta / canvas.scaleFactor;
+        draggableitem.anchoredPosition += valueToAdd;
     }
 }
