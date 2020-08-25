@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class ResourceNode : MonoBehaviour, IHIttable
 {
     [SerializeField]
@@ -24,11 +25,13 @@ public class ResourceNode : MonoBehaviour, IHIttable
         switch (itemToSpawn.resourceType)
         {
             case ResourceType.None:
-                break;
+                throw new Exception("Resource cant be of type None");
             case ResourceType.Wood:
-                break;
+                audioSource.clip = AudioLibrary.instance.woodHitClip;
+                return;
             case ResourceType.Stone:
-                break;
+                audioSource.clip = AudioLibrary.instance.stoneHitClip;
+                return;
             default:
                 break;
         }
