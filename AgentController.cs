@@ -9,6 +9,8 @@ public class AgentController : MonoBehaviour
     public PlayerInput input;
     public HumanoidAnimations agentAnimations;
 
+    public InventorySystem inventorySystem;
+
     BaseState currentState;
     public readonly BaseState movementState = new MovementState();
     public readonly BaseState jumpState = new JumpState();

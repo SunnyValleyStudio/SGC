@@ -9,6 +9,7 @@ public class InventoryState : BaseState
     {
         base.EnterState(controller);
         Debug.Log("Open inventory window");
+        controllerReference.inventorySystem.ToggleInventory();
         Time.timeScale = 0;
         Cursor.lockState = CursorLockMode.Confined;
     }
@@ -19,6 +20,7 @@ public class InventoryState : BaseState
         Debug.Log("Close Inventory");
         Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.Locked;
+        controllerReference.inventorySystem.ToggleInventory();
         controllerReference.TransitionToState(controllerReference.movementState);
         
     }
