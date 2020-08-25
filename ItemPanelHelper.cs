@@ -62,7 +62,7 @@ public class ItemPanelHelper : MonoBehaviour, IPointerClickHandler, IBeginDragHa
         itemImage.sprite = image;
     }
 
-    private void ClearItem()
+    public void ClearItem()
     {
         itemName = "";
         itemCount = -1;

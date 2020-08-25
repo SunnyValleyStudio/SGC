@@ -54,9 +54,9 @@ namespace Inventory
             if (storageHotbar.CheckIfStorageContains(item.ID))
             {
                 countLeft = storageHotbar.AddItem(item);
+                updateHotbarCallback.Invoke();
                 if (countLeft == 0)
                 {
-                    updateHotbarCallback.Invoke();
                     return countLeft;
                 }
             }
@@ -64,13 +64,18 @@ namespace Inventory
             if(countLeft > 0)
             {
                 countLeft = storageHotbar.AddItem(item.ID, countLeft, item.IsStackable, item.StackLimit);
+                updateHotbarCallback.Invoke();
                 if (countLeft == 0)
                 {
-                    updateHotbarCallback.Invoke();
                     return countLeft;
                 }
             }
             return countLeft;
+        }
+
+        public List<ItemData> GetItemsDataForHotbar()
+        {
+            return storageHotbar.GetItemsData();
         }
 
         public List<ItemData> GetItemsDataForInventory()
