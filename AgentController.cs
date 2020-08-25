@@ -13,6 +13,7 @@ public class AgentController : MonoBehaviour
     public readonly BaseState movementState = new MovementState();
     public readonly BaseState jumpState = new JumpState();
     public readonly BaseState fallingState = new FallingState();
+    public readonly BaseState inventoryState = new InventoryState();
 
     private void OnEnable()
     {
@@ -21,18 +22,31 @@ public class AgentController : MonoBehaviour
         agentAnimations = GetComponent<HumanoidAnimations>();
         currentState = movementState;
         currentState.EnterState(this);
-        AssignMovementInputListeners();
+        AssignInputListeners();
 
     }
 
-    private void AssignMovementInputListeners()
+    private void AssignInputListeners()
     {
         input.OnJump += HandleJump;
+        input.OnHotbarKey += HandleHotbarInput;
+        input.OnToggleInventory += HandleInventoryInput;
+
     }
 
     private void HandleJump()
     {
         currentState.HandleJumpInput();
+    }
+
+    private void HandleInventoryInput()
+    {
+        currentState.HandleInventoryInput();
+    }
+
+    private void HandleHotbarInput(int hotbarkey)
+    {
+        currentState.HandleHotbarInput(hotbarkey);
     }
 
     private void Update()

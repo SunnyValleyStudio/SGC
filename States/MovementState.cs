@@ -30,6 +30,12 @@ public class MovementState : BaseState
         controllerReference.TransitionToState(controllerReference.jumpState);
     }
 
+    public override void HandleInventoryInput()
+    {
+        base.HandleInventoryInput();
+        controllerReference.TransitionToState(controllerReference.inventoryState);
+    }
+
     public override void Update()
     {
         base.Update();
