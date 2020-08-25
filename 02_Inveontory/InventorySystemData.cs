@@ -260,12 +260,33 @@ namespace Inventory
 
         public SavedItemSystemData GetDataToSave()
         {
-            throw new NotImplementedException();
+            return new SavedItemSystemData
+            {
+                playerStorageItems = storagePlayer.GetDataToSave(),
+                hotbarStorageItems = storageHotbar.GetDataToSave(),
+                playerStorageSize = storagePlayer.StorageLimit
+            };
         }
 
         public void LoadData(SavedItemSystemData dataToLoad)
         {
-            throw new NotImplementedException();
+            storagePlayer = new Storage(dataToLoad.playerStorageSize);
+            storageHotbar.ClearStorage();
+            foreach (var item in dataToLoad.playerStorageItems)
+            {
+                if (item.IsNull == false)
+                {
+                    storagePlayer.SwapItemWithIndexFor(item.StorageIndex, item);
+                }
+            }
+            foreach (var item in dataToLoad.hotbarStorageItems)
+            {
+                if (item.IsNull == false)
+                {
+                    storageHotbar.SwapItemWithIndexFor(item.StorageIndex, item);
+                }
+            }
+            updateHotbarCallback.Invoke();
         }
     }
 
