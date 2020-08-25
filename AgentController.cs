@@ -18,6 +18,7 @@ public class AgentController : MonoBehaviour
     public readonly BaseState jumpState = new JumpState();
     public readonly BaseState fallingState = new FallingState();
     public readonly BaseState inventoryState = new InventoryState();
+    public readonly BaseState interactState = new InteractState();
 
     private void OnEnable()
     {
@@ -42,12 +43,12 @@ public class AgentController : MonoBehaviour
 
     private void HandleSecondaryInput()
     {
-        throw new NotImplementedException();
+        currentState.HandleSecondaryAction();
     }
 
     private void HandlePrimaryInput()
     {
-        throw new NotImplementedException();
+        currentState.HandlePrimaryAction();
     }
 
     private void HandleJump()

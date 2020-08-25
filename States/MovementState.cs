@@ -36,6 +36,12 @@ public class MovementState : BaseState
         controllerReference.TransitionToState(controllerReference.inventoryState);
     }
 
+    public override void HandlePrimaryAction()
+    {
+        base.HandlePrimaryAction();
+        controllerReference.TransitionToState(controllerReference.interactState);
+    }
+
     public override void Update()
     {
         base.Update();

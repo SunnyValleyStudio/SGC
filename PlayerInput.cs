@@ -54,7 +54,7 @@ public class PlayerInput : MonoBehaviour
 
     private void GetPrimaryAction()
     {
-        var inputValue = Input.GetAxisRaw("Fire1");
+        var inputValue = Input.GetAxis("Fire1");
         if (previousPrimaryActionInput == 0)
         {
             if(inputValue >= 1)
