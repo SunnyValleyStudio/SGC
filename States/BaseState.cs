@@ -35,8 +35,8 @@ public abstract class BaseState
     {
     }
 
-    public virtual void HandleMenuInput()
+    public virtual void HandleEscapeInput()
     {
-
+        controllerReference.gameManager.ToggleGameMenu();
     }
 }

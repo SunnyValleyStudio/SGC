@@ -56,13 +56,13 @@ public class AgentController : MonoBehaviour
         input.OnToggleInventory += HandleInventoryInput;
         input.OnPrimaryAction += HandlePrimaryInput;
         input.OnSecondaryAction += HandleSecondaryInput;
-        input.OnMenuToggledKey += HendleMenu;
+        input.OnEscapeKey += HendleEscapeKey;
     }
 
-    private void HendleMenu()
+    private void HendleEscapeKey()
     {
-        currentState.HandleMenuInput();
-        gameManager.ToggleGameMenu();
+        currentState.HandleEscapeInput();
+        
     }
 
     private void HandleSecondaryInput()

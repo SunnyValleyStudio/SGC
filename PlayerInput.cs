@@ -22,9 +22,7 @@ public class PlayerInput : MonoBehaviour
 
     private float previousPrimaryActionInput = 0, prevousSecondaryActionInput = 0;
 
-    bool menuState = false;
-
-    public Action OnMenuToggledKey { get; set; }
+    public Action OnEscapeKey { get; set; }
 
     private void Start()
     {
@@ -34,33 +32,24 @@ public class PlayerInput : MonoBehaviour
 
     private void Update()
     {
-        CheckMenuButton();
-        if(menuState == false)
-        {
-            GetMovementInput();
-            GetMovementDirection();
-            GetJumpInput();
-            GetInventoryInput();
-            GetHotbarInput();
-            GetPrimaryAction();
-            GetSecondaryAction();
-        }
+        CheckEscapeButton();
+
+        GetMovementInput();
+        GetMovementDirection();
+        GetJumpInput();
+        GetInventoryInput();
+        GetHotbarInput();
+        GetPrimaryAction();
+        GetSecondaryAction();
+        
         
     }
 
-    private void CheckMenuButton()
+    private void CheckEscapeButton()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (menuState == false)
-            {
-                menuState = true;
-            }
-            else
-            {
-                menuState = false;
-            }
-            OnMenuToggledKey?.Invoke();
+            OnEscapeKey?.Invoke();
         }
     }
 

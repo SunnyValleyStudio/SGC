@@ -124,7 +124,6 @@ public class InventorySystem : MonoBehaviour, ISavable
                 uiInventory.ToggleEquipSelectedItem(inventoryData.EquippedUI_ID);
                 if (inventoryData.EquippedUI_ID == ui_id)
                 {
-                    
                     inventoryData.UnequipItem();
                     return;
                 }
@@ -212,7 +211,11 @@ public class InventorySystem : MonoBehaviour, ISavable
                 uiItemElement.SetItemUI(itemName, itemData.Count, itemSprite);
             }
             inventoryData.AddInventoryUiElement(uiItemElement.GetInstanceID());
-            if(inventoryData.EquippedUI_ID == uiItemElement.GetInstanceID())
+        }
+        for (int i = 0; i < uiElementsList.Count; i++)
+        {
+            var uiItemElement = uiElementsList[i];
+            if (inventoryData.EquippedUI_ID == uiItemElement.GetInstanceID())
             {
                 uiItemElement.ToggleEquippedIndicator();
             }

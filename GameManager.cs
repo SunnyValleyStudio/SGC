@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public UiInGameMenu gameMenu;
     private bool timeAlreadyStopped = false;
     private bool pointerConfined = false;
+    public AudioSource ambientSounds;
 
     // Start is called before the first frame update
     void Start()
@@ -29,7 +30,8 @@ public class GameManager : MonoBehaviour
     {
         if (gameMenu.MenuVisible == false)
         {
-            if(Cursor.lockState == CursorLockMode.Confined)
+            ambientSounds.Pause();
+            if (Cursor.lockState == CursorLockMode.Confined)
             {
                 pointerConfined = true;
             }
@@ -51,6 +53,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            ambientSounds.UnPause();
             if (timeAlreadyStopped)
             {
                 timeAlreadyStopped = false;
