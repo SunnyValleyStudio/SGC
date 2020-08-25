@@ -226,6 +226,11 @@ public class InventorySystem : MonoBehaviour
 
     private void DeselectCurrentItem()
     {
+        if (inventoryData.selectedItemUIID != -1)
+        {
+            uiInventory.DisableHighlightForSelectedItem(inventoryData.selectedItemUIID);
+            uiInventory.ToggleItemButtons(false, false);
+        }
         inventoryData.ResetSelectedItem();
     }
 
@@ -247,7 +252,6 @@ public class InventorySystem : MonoBehaviour
 
     private void UiElementSelectedHandler(int ui_id, bool isEmpty)
     {
-        Debug.Log("Selecting inventory item");
         if (isEmpty)
             return;
         DeselectCurrentItem();
