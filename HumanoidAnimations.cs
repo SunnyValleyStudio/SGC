@@ -12,9 +12,24 @@ public class HumanoidAnimations : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
+    public void TriggerLandingAnimation()
+    {
+        animator.SetTrigger("Land");
+    }
+
+    public void TriggerJumpAnimation()
+    {
+        animator.SetTrigger("Jump");
+    }
+
     public void SetMovementFloat(float value)
     {
         animator.SetFloat("move", value);
+    }
+
+    public void TriggerFallAnimation()
+    {
+        animator.SetTrigger("Fall");
     }
 
     public float SetCorrectAnimation(float desiredRotationAngle, int angleThreshold, int inputVerticalDirection)
