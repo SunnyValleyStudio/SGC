@@ -44,6 +44,8 @@ namespace Inventory
             } 
         }
 
+        public string EquippedItemId { get => equippedItemStorage.GetItemData(equippedItemStorageIndex).ID; }
+
         public void SetSelectedItemTo(int ui_id)
         {
             selectedItemUIID = ui_id;

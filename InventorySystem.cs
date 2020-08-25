@@ -19,6 +19,7 @@ public class InventorySystem : MonoBehaviour, ISavable
     public InteractionManager interactionManager;
 
     public bool WeaponEquipped { get => inventoryData.ItemEquipped;}
+    public string EquippedWeaponId { get => inventoryData.EquippedItemId; }
 
     private void Awake()
     {

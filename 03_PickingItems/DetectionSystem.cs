@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class DetectionSystem : MonoBehaviour
 {
+    public Action<Collider, Vector3> OnAttackSuccessful;
     private List<Collider> collidersList = new List<Collider>();
     private Collider currentCollider;
     private List<Material[]> currentColliderMaterialsList = new List<Material[]>();
@@ -16,6 +17,10 @@ public class DetectionSystem : MonoBehaviour
     public float detectionRadius;
 
     public Collider CurrentCollider { get => currentCollider; set => currentCollider = value; }
+
+    public Transform WeaponRaycastStartPosition;
+
+    public float attackDistance = 0.8f;
 
     public Collider[] DetectObjectsInFront(Vector3 movementDirectionVector)
     {
@@ -104,5 +109,15 @@ public class DetectionSystem : MonoBehaviour
             var renderer = currentCollider.GetComponent<Renderer>();
             renderer.materials = currentColliderMaterialsList[0];
         }
+    }
+
+    public void DetectColliderInFront()
+    {
+        RaycastHit hit;
+        if(Physics.SphereCast(WeaponRaycastStartPosition.position,0.2f, transform.forward, out hit, attackDistance))
+        {
+            OnAttackSuccessful?.Invoke(hit.collider, hit.point);
+        }
+
     }
 }
