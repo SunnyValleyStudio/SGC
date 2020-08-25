@@ -86,6 +86,11 @@ public class UiInventory : MonoBehaviour
         return null;
     }
 
+    internal void UpdateItemInfo(int ui_id, int count)
+    {
+        GetItemFromCorrectDictionary(ui_id).UpdateCount(count);
+    }
+
     public void AssignDropButtonHandler(Action handler)
     {
         uiStorageButtonHelper.OnDropBtnClick += handler;

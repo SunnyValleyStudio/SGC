@@ -57,7 +57,20 @@ public class InventorySystem : MonoBehaviour
         if (interactionManager.UseItem(itemData))
         {
             inventoryData.TakeOneFromItem(ui_id);
+            if (inventoryData.CheckIfSelectedItemIsEmpty(ui_id))
+            {
+                ClearUIElement(ui_id);
+                inventoryData.RemoveItemFromInventory(ui_id);
+            }else
+            {
+                UpdateUI(ui_id, inventoryData.GetItemCountFor(ui_id));
+            }
         }
+    }
+
+    private void UpdateUI(int ui_id, int count)
+    {
+        uiInventory.UpdateItemInfo(ui_id, count);
     }
 
     private void DropHandler()

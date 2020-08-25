@@ -73,6 +73,22 @@ namespace Inventory
             return countLeft;
         }
 
+        internal bool CheckIfSelectedItemIsEmpty(int ui_id)
+        {
+            if (CheckItemForHotbarStorageNotEmpty(ui_id))
+            {
+                return storageHotbar.CheckIfItemIsEmpty(hotbarUiElementIdList.IndexOf(ui_id));
+            }
+            else if (CheckItemForInventoryStorageNotEmpty(ui_id))
+            {
+                return storagePlayer.CheckIfItemIsEmpty(inventoryUiElementIdList.IndexOf(ui_id));
+            }
+            else
+            {
+                throw new Exception("No item with ui id " + ui_id);
+            }
+        }
+
         internal void TakeOneFromItem(int ui_id)
         {
             if (CheckItemForHotbarStorageNotEmpty(ui_id))
@@ -81,11 +97,11 @@ namespace Inventory
             }
             else if (CheckItemForInventoryStorageNotEmpty(ui_id))
             {
-                storagePlayer.TakeFromItemWith(hotbarUiElementIdList.IndexOf(ui_id), 1);
+                storagePlayer.TakeFromItemWith(inventoryUiElementIdList.IndexOf(ui_id), 1);
             }
             else
             {
-                throw new Exception("No ite with ui id " + ui_id);
+                throw new Exception("No item with ui id " + ui_id);
             }
         }
 
