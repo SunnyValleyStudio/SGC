@@ -90,7 +90,7 @@ public class UiCrafting : MonoBehaviour
         ingredientHelper.SetItemUI(ingredientName, ingredientSprite, ingredientCOunt, enoughItems);
     }
 
-    public List<int> PrepareSRecipeItems(List<RecipeSO> listOfRecipes)
+    public List<int> PrepareRecipeItems(List<RecipeSO> listOfRecipes)
     {
         ClearUI();
         recipeUiElementDictionary.Clear();
