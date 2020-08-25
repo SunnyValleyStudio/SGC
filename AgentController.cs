@@ -25,7 +25,6 @@ public class AgentController : MonoBehaviour
         currentState = movementState;
         currentState.EnterState(this);
         AssignInputListeners();
-
     }
 
     private void AssignInputListeners()
@@ -53,6 +52,7 @@ public class AgentController : MonoBehaviour
 
     private void Update()
     {
+        
         currentState.Update();
     }
 

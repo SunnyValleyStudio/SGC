@@ -24,6 +24,6 @@ public abstract class BaseState
         Debug.Log(hotbarKey);
     }
 
-    public virtual void Update() { }
+    public virtual void Update() {}
 
 }
