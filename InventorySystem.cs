@@ -51,8 +51,10 @@ public class InventorySystem : MonoBehaviour
 
     private void DropHandler()
     {
-        ClearUIElement(inventoryData.selectedItemUIID);
-        inventoryData.RemoveItemFromInventory(inventoryData.selectedItemUIID);
+        var id = inventoryData.selectedItemUIID;
+        ItemSpawnManager.instance.CreateItemAtPlayersFeet(inventoryData.GetItemIdFor(id), inventoryData.GetItemCountFor(id));
+        ClearUIElement(id);
+        inventoryData.RemoveItemFromInventory(id);
     }
 
     private void ClearUIElement(int ui_id)

@@ -73,6 +73,21 @@ namespace Inventory
             return countLeft;
         }
 
+        internal int GetItemCountFor(int ui_id)
+        {
+            if (CheckItemForHotbarStorageNotEmpty(ui_id))
+            {
+                return storageHotbar.GetCountOfItemWithIndex(hotbarUiElementIdList.IndexOf(ui_id));
+            }else if (CheckItemForInventoryStorageNotEmpty(ui_id))
+            {
+                return storagePlayer.GetCountOfItemWithIndex(inventoryUiElementIdList.IndexOf(ui_id));
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
         internal void RemoveItemFromInventory(int ui_id)
         {
             if (hotbarUiElementIdList.Contains(ui_id))
@@ -151,7 +166,7 @@ namespace Inventory
 
         private bool CheckItemForHotbarStorageNotEmpty(int ui_id)
         {
-            return storageHotbar.CheckIfItemIsEmpty(hotbarUiElementIdList.IndexOf(ui_id)) == false;
+            return hotbarUiElementIdList.Contains(ui_id) && storageHotbar.CheckIfItemIsEmpty(hotbarUiElementIdList.IndexOf(ui_id)) == false;
         }
 
         internal void SwapStorageHotbarToInventory(int droppedItemID, int draggedItemID)
