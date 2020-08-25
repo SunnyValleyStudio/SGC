@@ -117,7 +117,7 @@ public class InventorySystem : MonoBehaviour, ISavable
             {
                 var itemName = ItemDataManager.instance.GetItemName(itemData.ID);
                 var itemSprite = ItemDataManager.instance.GetItemSprite(itemData.ID);
-                uiItemElement.SetInventoryUiElement(itemName, itemData.Count, itemSprite);
+                uiItemElement.SetItemUI(itemName, itemData.Count, itemSprite);
             }
         }
     }
@@ -156,7 +156,7 @@ public class InventorySystem : MonoBehaviour, ISavable
             {
                 var itemName = ItemDataManager.instance.GetItemName(itemData.ID);
                 var itemSprite = ItemDataManager.instance.GetItemSprite(itemData.ID);
-                uiItemElement.SetInventoryUiElement(itemName, itemData.Count, itemSprite);
+                uiItemElement.SetItemUI(itemName, itemData.Count, itemSprite);
             }
             inventoryData.AddInventoryUiElement(uiItemElement.GetInstanceID());
         }

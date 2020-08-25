@@ -5,25 +5,18 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ItemPanelHelper : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+public class ItemPanelHelper : MonoBehaviour
 {
-    public Action<int, bool> OnClickEvent;
-
-    public Action<PointerEventData> DragStopCallback, DragContinueCallback;
-    public Action<PointerEventData, int> DragStartCallback, DropCalback;
 
     public Image itemImage;
     [SerializeField]
-    private Text nameText = null, countText =null;
+    protected Text nameText = null;
     public string itemName;
-    public int itemCount;
-    public bool isEmpty = true;
     public Outline outline;
-    public bool isHotbarItem = false;
 
     public Sprite backgroundSprite;
 
-    private void Start()
+    protected virtual void Start()
     {
         outline = GetComponent<Outline>();
         outline.enabled = false;
@@ -33,95 +26,36 @@ public class ItemPanelHelper : MonoBehaviour, IPointerClickHandler, IBeginDragHa
         }
     }
 
-    public void SetInventoryUiElement(string name, int count, Sprite image)
+    public virtual void SetItemUI(string name, Sprite image)
     {
         itemName = name;
-        itemCount = count;
-        if (!isHotbarItem)
-            nameText.text = itemName;
-        if (count < 0)
-        {
-            countText.text = "";
-        }
-        else
-        {
-            countText.text = itemCount + "";
-        }
-        isEmpty = false;
+        nameText.text = itemName;
         SetImageSprite(image);
     }
 
-    public void SwapWithData(string name, int count, Sprite image, bool isEmpty)
-    {
-        SetInventoryUiElement(name, count, image);
-        this.isEmpty = isEmpty;
-    }
-
-    private void SetImageSprite(Sprite image)
+    protected virtual void SetImageSprite(Sprite image)
     {
         itemImage.sprite = image;
     }
 
-    public void ClearItem()
+    public virtual void ClearItem()
     {
         itemName = "";
-        itemCount = -1;
-        countText.text = "";
-        if (!isHotbarItem)
-            nameText.text = itemName;
+        nameText.text = itemName;
         ResetImage();
-        isEmpty = true;
         ToggleHighlight(false);
     }
 
-    private void ToggleHighlight(bool val)
+    protected virtual void ToggleHighlight(bool val)
     {
         outline.enabled = val;
     }
 
-    private void ResetImage()
+    protected virtual void ResetImage()
     {
         itemImage.sprite = backgroundSprite;
     }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        OnClickEvent.Invoke(GetInstanceID(), isEmpty);
-    }
-
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        if (isEmpty)
-            return;
-        DragStartCallback.Invoke(eventData, GetInstanceID());
-    }
-
-    public void OnDrag(PointerEventData eventData)
-    {
-        if (isEmpty)
-            return;
-        DragContinueCallback.Invoke(eventData);
-    }
-
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        if (isEmpty)
-            return;
-        DragStopCallback.Invoke(eventData);
-    }
-
-    internal void UpdateCount(int count)
-    {
-        itemCount = count;
-        countText.text = itemCount + "";
-    }
-
-    public void OnDrop(PointerEventData eventData)
-    {
-        DropCalback.Invoke(eventData, GetInstanceID());
-    }
-
-    internal void ToggleHoghlight(bool val)
+    public virtual void ToggleHoghlight(bool val)
     {
         outline.enabled = val;
     }
