@@ -17,6 +17,8 @@ public class AgentController : MonoBehaviour
 
     public GameManager gameManager;
 
+    public Transform itemSlot;
+
     BaseState currentState;
     public readonly BaseState movementState = new MovementState();
     public readonly BaseState jumpState = new JumpState();
@@ -111,5 +113,16 @@ public class AgentController : MonoBehaviour
             Gizmos.color = Color.blue;
             Gizmos.DrawWireSphere(transform.position + input.MovementDirectionVector, detectionSystem.detectionRadius);
         }
+    }
+
+    public void EquipToHand(GameObject model)
+    {
+        foreach (Transform child in itemSlot)
+        {
+            Destroy(child.gameObject);
+        }
+        var item = Instantiate(model, itemSlot);
+        item.transform.localPosition = Vector3.zero;
+        item.transform.localRotation = Quaternion.identity;
     }
 }
