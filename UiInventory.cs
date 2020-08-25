@@ -21,7 +21,9 @@ public class UiInventory : MonoBehaviour
         return hotbarUiItems.Values.ToList();
     }
 
-    public GameObject hotbarPanel;
+    public GameObject hotbarPanel, storagePanel;
+
+    public GameObject storagePrefab;
 
     private void Awake()
     {
@@ -48,5 +50,28 @@ public class UiInventory : MonoBehaviour
         {
             inventoryGeneralPanel.SetActive(false);
         }
+    }
+
+    public void PrepareInventoryItems(int playerStorageLimit)
+    {
+        for (int i = 0; i < playerStorageLimit; i++)
+        {
+            foreach (Transform child in storagePanel.transform)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+        inventoryUiItems.Clear();
+        for (int i = 0; i < playerStorageLimit; i++)
+        {
+            var element = Instantiate(storagePrefab, Vector3.zero, Quaternion.identity, storagePanel.transform);
+            var itemHelper = element.GetComponent<ItemPanelHelper>();
+            inventoryUiItems.Add(itemHelper.GetInstanceID(), itemHelper);
+        }
+    }
+
+    public List<ItemPanelHelper> GetUiElementsForInventory()
+    {
+        return inventoryUiItems.Values.ToList();
     }
 }

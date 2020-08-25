@@ -30,8 +30,10 @@ public class InventorySystem : MonoBehaviour
         }
     }
 
-    private void UseHotbarItemHandler(int arg1, bool arg2)
+    private void UseHotbarItemHandler(int ui_id, bool isEmpty)
     {
+        if (isEmpty)
+            return;
         throw new NotImplementedException();
     }
 
@@ -54,6 +56,23 @@ public class InventorySystem : MonoBehaviour
 
     private void PrepareUI()
     {
-        throw new NotImplementedException();
+        uiInventory.PrepareInventoryItems(inventoryData.PlayerStorageLimit);
+        AddEventHandlersToInventoryUiElements();
+    }
+
+    private void AddEventHandlersToInventoryUiElements()
+    {
+        foreach (var uiItemElement in uiInventory.GetUiElementsForInventory())
+        {
+            uiItemElement.OnClickEvent += UiElementSelectedHandler;
+        }
+    }
+
+    private void UiElementSelectedHandler(int ui_id, bool isEmpty)
+    {
+        if (isEmpty)
+            return;
+        inventoryData.ResetSelectedItem();
+        inventoryData.SetSelectedItemTo(ui_id);
     }
 }
