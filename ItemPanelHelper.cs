@@ -14,7 +14,7 @@ public class ItemPanelHelper : MonoBehaviour, IPointerClickHandler, IBeginDragHa
 
     public Image itemImage;
     [SerializeField]
-    private Text nameText, countText;
+    private Text nameText = null, countText =null;
     public string itemName;
     public int itemCount;
     public bool isEmpty = true;
