@@ -28,6 +28,28 @@ public class ItemPanelHelper : MonoBehaviour
         }
     }
 
+    public void SetInventoryUiElement(string name, int count, Sprite image)
+    {
+        itemName = name;
+        itemCount = count + "";
+        if (!isHotbarItem)
+            nameText.text = itemName;
+        countText.text = itemCount;
+        isEmpty = false;
+        SetImageSprite(image);
+    }
+
+    public void SwapWithData(string name, int count, Sprite image, bool isEmpty)
+    {
+        SetInventoryUiElement(name, count, image);
+        this.isEmpty = isEmpty;
+    }
+
+    private void SetImageSprite(Sprite image)
+    {
+        itemImage.sprite = image;
+    }
+
     private void ClearItem()
     {
         itemName = "";
