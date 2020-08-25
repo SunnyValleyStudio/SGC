@@ -114,4 +114,9 @@ public class ItemPanelHelper : MonoBehaviour, IPointerClickHandler, IBeginDragHa
     {
         DropCalback.Invoke(eventData, GetInstanceID());
     }
+
+    internal void ToggleHoghlight(bool val)
+    {
+        outline.enabled = val;
+    }
 }

@@ -222,4 +222,22 @@ public class UiInventory : MonoBehaviour
 
         DestroyDraggedObject();
     }
+
+    public void HighlightSelectedItem(int ui_id)
+    {
+        if (hotbarUiItems.ContainsKey(ui_id))
+        {
+            return;
+        }
+        inventoryUiItems[ui_id].ToggleHoghlight(true);
+    }
+
+    public void DisableHighlightForSelectedItem(int ui_id)
+    {
+        if (hotbarUiItems.ContainsKey(ui_id))
+        {
+            return;
+        }
+        inventoryUiItems[ui_id].ToggleHoghlight(false);
+    }
 }

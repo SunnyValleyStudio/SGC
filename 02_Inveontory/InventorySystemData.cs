@@ -195,6 +195,21 @@ namespace Inventory
                 storagePlayer.RemoveItemOfIndex(storage_IdDraggedItem);
             }
         }
+
+        internal string GetItemIdFor(int ui_id)
+        {
+            if (CheckItemForInventoryStorageNotEmpty(ui_id))
+            {
+                return storagePlayer.GetIdOfItemWithIndex(inventoryUiElementIdList.IndexOf(ui_id));
+            }else if (CheckItemForHotbarStorageNotEmpty(ui_id))
+            {
+                return storageHotbar.GetIdOfItemWithIndex(hotbarUiElementIdList.IndexOf(ui_id));
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }
 

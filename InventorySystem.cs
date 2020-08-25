@@ -57,6 +57,7 @@ public class InventorySystem : MonoBehaviour
 
     private void ClearUIElement(int ui_id)
     {
+        uiInventory.DisableHighlightForSelectedItem(ui_id);
         uiInventory.ClearItemElement(ui_id);
         uiInventory.ToggleItemButtons(false, false);
     }
@@ -225,7 +226,8 @@ public class InventorySystem : MonoBehaviour
             return;
         DeselectCurrentItem();
         inventoryData.SetSelectedItemTo(ui_id);
-        
+        uiInventory.HighlightSelectedItem(ui_id);
+        uiInventory.ToggleItemButtons(ItemDataManager.instance.IsItemUsabel(inventoryData.GetItemIdFor(inventoryData.selectedItemUIID)),true);
     }
 
     public int AddToStorage(IInventoryItem item)
