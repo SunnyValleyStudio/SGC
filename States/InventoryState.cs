@@ -27,4 +27,10 @@ public class InventoryState : BaseState
         
     }
 
+    public override void HandleMenuInput()
+    {
+        base.HandleMenuInput();
+        controllerReference.inventorySystem.ToggleInventory();
+    }
+
 }

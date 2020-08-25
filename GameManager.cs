@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public string mainMenuSceneName;
     public UiInGameMenu gameMenu;
     private bool timeAlreadyStopped = false;
+    private bool pointerConfined = false;
 
     // Start is called before the first frame update
     void Start()
@@ -28,10 +29,16 @@ public class GameManager : MonoBehaviour
     {
         if (gameMenu.MenuVisible == false)
         {
-
-            Cursor.lockState = CursorLockMode.Confined;
-            Cursor.visible = true;
-
+            if(Cursor.lockState == CursorLockMode.Confined)
+            {
+                pointerConfined = true;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Confined;
+                Cursor.visible = true;
+            }
+            
 
             if (Time.timeScale == 0)
             {
@@ -52,11 +59,16 @@ public class GameManager : MonoBehaviour
             {
                 Time.timeScale = 1;
             }
-
-
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-
+            if (pointerConfined)
+            {
+                pointerConfined = false;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
+            
 
         }
         gameMenu.ToggleMenu();
@@ -86,6 +98,7 @@ public class GameManager : MonoBehaviour
 
     internal void StartNextScene()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
