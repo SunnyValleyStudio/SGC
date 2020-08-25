@@ -27,7 +27,7 @@ public class JumpState : BaseState
             if (landingTriggerd == false)
             {
                 landingTriggerd = true;
-                controllerReference.movement.StartLandingAnimation();
+                controllerReference.agentAnimations.TriggerLandingAnimation();
             }
             if (controllerReference.movement.HasFinishedJumping())
             {

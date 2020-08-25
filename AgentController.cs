@@ -7,15 +7,18 @@ public class AgentController : MonoBehaviour
 {
     public AgentMovement movement;
     public PlayerInput input;
+    public HumanoidAnimations agentAnimations;
 
     BaseState currentState;
     public readonly BaseState movementState = new MovementState();
     public readonly BaseState jumpState = new JumpState();
+    public readonly BaseState fallingState = new FallingState();
 
     private void OnEnable()
     {
         movement = GetComponent<AgentMovement>();
         input = GetComponent<PlayerInput>();
+        agentAnimations = GetComponent<HumanoidAnimations>();
         currentState = movementState;
         currentState.EnterState(this);
         AssignMovementInputListeners();

@@ -114,11 +114,6 @@ public class AgentMovement : MonoBehaviour
         moveDirection = Vector3.zero;
     }
 
-    public void StartLandingAnimation()
-    {
-        agentAnimations.TriggerLandingAnimation();
-    }
-
     public bool HasFinishedJumping()
     {
         return finishedJumping;
