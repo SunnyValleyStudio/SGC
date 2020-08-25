@@ -56,6 +56,12 @@ public class ItemSpawnManager : MonoBehaviour
         }
     }
 
+    internal void CreateItemInPlace(Vector3 hitpoint, MaterialSO itemToSpawn, int resourceCountToSpawn)
+    {
+        var itemGameObject = Instantiate(itemToSpawn.model, hitpoint + Vector3.up * 0.2f, Quaternion.identity);
+        PrepareItemGameObject(itemToSpawn.ID, resourceCountToSpawn, itemGameObject);
+    }
+
     private void CreateItemInPlace(Vector3 randomPosition, ItemSO itemToSpawn, int count)
     {
         var itemGameObject = Instantiate(itemToSpawn.model, randomPosition, Quaternion.identity, itemsSpawnersParent);
