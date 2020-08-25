@@ -19,6 +19,8 @@ public class AgentController : MonoBehaviour
 
     public Transform itemSlot;
 
+    public AudioSource audioSource;
+
     BaseState currentState;
     public readonly BaseState movementState = new MovementState();
     public readonly BaseState jumpState = new JumpState();
@@ -115,5 +117,8 @@ public class AgentController : MonoBehaviour
         }
     }
 
-
+    public void PlayWeaponSwooshSOund()
+    {
+        audioSource.PlayOneShot(AudioLibrary.instance.weaponWoosh);
+    }
 }

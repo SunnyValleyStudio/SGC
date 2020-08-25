@@ -121,9 +121,10 @@ public class InventorySystem : MonoBehaviour, ISavable
             ItemSpawnManager.instance.RemoveItemFromPlayerHand();
             if (inventoryData.ItemEquipped)
             {
-                if(inventoryData.EquippedUI_ID == ui_id)
+                uiInventory.ToggleEquipSelectedItem(inventoryData.EquippedUI_ID);
+                if (inventoryData.EquippedUI_ID == ui_id)
                 {
-                    uiInventory.ToggleEquipSelectedItem(inventoryData.EquippedUI_ID);
+                    
                     inventoryData.UnequipItem();
                     return;
                 }
