@@ -18,6 +18,8 @@ public class PlacementHelper : MonoBehaviour
 
     LayerMask layerMask;
 
+    Material m_material;
+
     private void Start()
     {
         layerMask.value = 1 << LayerMask.NameToLayer("Ground");
@@ -33,6 +35,7 @@ public class PlacementHelper : MonoBehaviour
         boxCollider = GetComponent<BoxCollider>();
         rb = GetComponent<Rigidbody>();
         MaterialHelper.SwapToSelectionMaterial(gameObject, objectMaterials, ItemSpawnManager.instance.transparentMaterial);
+        m_material = GetComponent<Renderer>().material;
     }
 
     public void PrepareForPlacement()
@@ -44,7 +47,8 @@ public class PlacementHelper : MonoBehaviour
     {
         if(playerTransform != null)
         {
-            rb.position = playerTransform.position + playerTransform.forward;
+            var positionToMove = playerTransform.position + playerTransform.forward;
+            rb.position = positionToMove;
             rb.MoveRotation(Quaternion.LookRotation(playerTransform.forward));
             if(collisions.Count == 0)
             {
@@ -83,7 +87,9 @@ public class PlacementHelper : MonoBehaviour
                     {
                         Debug.Log("Placement position correct");
                         ChangeMaterialColor(Color.green);
+                        rb.position = new Vector3(positionToMove.x, (max + min) / 2f, positionToMove.z);
                     }
+
                 }
                 //check the height difference
 
@@ -94,6 +100,7 @@ public class PlacementHelper : MonoBehaviour
 
     private void ChangeMaterialColor(Color color)
     {
+        m_material.SetColor("Color_Shader", color);
 
     }
 
