@@ -24,6 +24,8 @@ public class PlayerInput : MonoBehaviour
 
     public Action OnEscapeKey { get; set; }
 
+    bool menuState = false;
+
     private void Start()
     {
         mainCamera = Camera.main;
@@ -34,22 +36,35 @@ public class PlayerInput : MonoBehaviour
     {
         CheckEscapeButton();
 
-        GetMovementInput();
-        GetMovementDirection();
-        GetJumpInput();
-        GetInventoryInput();
-        GetHotbarInput();
-        GetPrimaryAction();
-        GetSecondaryAction();
-        
-        
+        if (menuState == false)
+        {
+            GetMovementInput();
+            GetMovementDirection();
+            GetJumpInput();
+            GetInventoryInput();
+            GetHotbarInput();
+            GetPrimaryAction();
+            GetSecondaryAction();
+        }
+
+
+
     }
 
     private void CheckEscapeButton()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            if (menuState == false)
+            {
+                menuState = true;
+            }
+            else
+            {
+                menuState = false;
+            }
             OnEscapeKey?.Invoke();
+            
         }
     }
 
@@ -71,7 +86,7 @@ public class PlayerInput : MonoBehaviour
         var inputValue = Input.GetAxis("Fire1");
         if (previousPrimaryActionInput == 0)
         {
-            if(inputValue >= 1)
+            if (inputValue >= 1)
             {
                 OnPrimaryAction?.Invoke();
             }
