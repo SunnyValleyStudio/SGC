@@ -8,6 +8,14 @@ public class InteractState : BaseState
     {
         base.EnterState(controller);
         Debug.Log("Entering interact state");
+
+        var usableStructure = controllerReference.detectionSystem.IUsableCollider;
+        if(usableStructure != null)
+        {
+            usableStructure.GetComponent<IUsable>().Use();
+            return;
+        }
+
         var resultCollider = controllerReference.detectionSystem.CurrentCollider;
         if (resultCollider != null)
         {

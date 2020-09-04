@@ -22,6 +22,15 @@ public class DetectionSystem : MonoBehaviour
 
     public float attackDistance = 0.8f;
 
+    private Collider iUsableCollider;
+
+    public Collider IUsableCollider
+    {
+        get { return iUsableCollider; }
+        private set { iUsableCollider = value; }
+    }
+
+
     public Collider[] DetectObjectsInFront(Vector3 movementDirectionVector)
     {
         return Physics.OverlapSphere(transform.position + movementDirectionVector, detectionRadius, objectDetectionMask);
@@ -31,6 +40,7 @@ public class DetectionSystem : MonoBehaviour
     {
         var colliders = DetectObjectsInFront(movementDirectionVector);
         collidersList.Clear();
+        bool isUsableFound = false;
         foreach (var collider in colliders)
         {
             var pickableItem = collider.GetComponent<IPickable>();
@@ -38,6 +48,16 @@ public class DetectionSystem : MonoBehaviour
             {
                 collidersList.Add(collider);
             }
+            var usable = collider.GetComponent<IUsable>();
+            if(usable != null && isUsableFound == false)
+            {
+                IUsableCollider = collider;
+                isUsableFound = true;
+            }
+        }
+        if(isUsableFound == false)
+        {
+            IUsableCollider = null;
         }
         if (collidersList.Count == 0)
         {
