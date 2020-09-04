@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 
 public class InventorySystem : MonoBehaviour, ISavable
 {
-    public Action onInventoryStateChanged;
+    public Action onInventoryStateChanged, OnStructureUse;
 
     private UiInventory uiInventory;
 
@@ -20,6 +20,7 @@ public class InventorySystem : MonoBehaviour, ISavable
 
     public bool WeaponEquipped { get => inventoryData.ItemEquipped;}
     public string EquippedWeaponId { get => inventoryData.EquippedItemId; }
+    public bool InventoryVisible { get => uiInventory.IsInventoryVisible; }
 
     private void Awake()
     {
@@ -103,6 +104,11 @@ public class InventorySystem : MonoBehaviour, ISavable
 
     private void UseItem(ItemSO itemData, int ui_id)
     {
+        if(itemData.GetItemType() == ItemType.Structure)
+        {
+            OnStructureUse.Invoke();
+            return;
+        }
         if (interactionManager.UseItem(itemData))
         {
             inventoryData.TakeOneFromItem(ui_id);

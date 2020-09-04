@@ -7,7 +7,15 @@ public class PlacementState : MovementState
 {
     public override void EnterState(AgentController controller)
     {
+        Debug.Log("Entering placement state");
         base.EnterState(controller);
+    }
+
+    public override void HandleEscapeInput()
+    {
+        Debug.Log("Exiting placementState");
+        DestroyPlacedObject();
+        controllerReference.TransitionToState(controllerReference.movementState);
     }
 
     public override void HandleJumpInput()

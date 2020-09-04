@@ -44,10 +44,25 @@ public class AgentController : MonoBehaviour
 
     private void Start()
     {
+        inventorySystem.OnStructureUse += StructureUseCallback;
         craftingSystem.onCheckResourceAvailability += inventorySystem.CheckResourceAvailability;
         craftingSystem.onCheckInventoryFull += inventorySystem.CheckInventoryFull;
         craftingSystem.onCraftItemRequest += inventorySystem.CraftAnItem;
         inventorySystem.onInventoryStateChanged += craftingSystem.RecheckIngredients;
+    }
+
+    private void StructureUseCallback()
+    {
+        if (inventorySystem.InventoryVisible)
+        {
+            inventorySystem.ToggleInventory();
+            craftingSystem.ToggleCraftingUI();
+            if (Time.timeScale == 0)
+            {
+                Time.timeScale = 1;
+            }
+        }
+        TransitionToState(placementState);
     }
 
     private void AssignInputListeners()

@@ -24,7 +24,7 @@ public class PlayerInput : MonoBehaviour
 
     public Action OnEscapeKey { get; set; }
 
-    bool menuState = false;
+    public bool menuState = false;
 
     private void Start()
     {
@@ -55,14 +55,7 @@ public class PlayerInput : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (menuState == false)
-            {
-                menuState = true;
-            }
-            else
-            {
-                menuState = false;
-            }
+
             OnEscapeKey?.Invoke();
             
         }
