@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class MovementState : BaseState
 {
-    float defaultFallingDelay = 0.2f;
-    float fallingDelay = 0;
+    protected float defaultFallingDelay = 0.2f;
+    protected float fallingDelay = 0;
     public override void EnterState(AgentController controller)
     {
         base.EnterState(controller);
@@ -64,12 +64,17 @@ public class MovementState : BaseState
     public override void Update()
     {
         base.Update();
-        controllerReference.detectionSystem.PerformDetection(controllerReference.input.MovementDirectionVector);
+        PerformDetection();
         HandleMovement(controllerReference.input.MovementInputVector);
         HandleCameraDirection(controllerReference.input.MovementDirectionVector);
-        if(controllerReference.movement.IsGround() == false)
+        HandleFallingDown();
+    }
+
+    protected void HandleFallingDown()
+    {
+        if (controllerReference.movement.IsGround() == false)
         {
-            if(fallingDelay > 0)
+            if (fallingDelay > 0)
             {
                 fallingDelay -= Time.deltaTime;
                 return;
@@ -80,5 +85,10 @@ public class MovementState : BaseState
         {
             fallingDelay = defaultFallingDelay;
         }
+    }
+
+    protected void PerformDetection()
+    {
+        controllerReference.detectionSystem.PerformDetection(controllerReference.input.MovementDirectionVector);
     }
 }
