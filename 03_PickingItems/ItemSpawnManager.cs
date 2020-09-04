@@ -24,6 +24,12 @@ public class ItemSpawnManager : MonoBehaviour
         }
     }
 
+    internal GameObject CreateStructure(StructureItemSO structureData)
+    {
+        var structure = Instantiate(structureData.model, playerTransform.position + playerTransform.forward, Quaternion.identity);
+        return structure;
+    }
+
     private void Start()
     {
         StartCoroutine(SpawnAllItems());

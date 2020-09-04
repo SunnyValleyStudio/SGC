@@ -5,10 +5,18 @@ using UnityEngine;
 
 public class PlacementState : MovementState
 {
+    GameObject structureToPlace;
     public override void EnterState(AgentController controller)
     {
         Debug.Log("Entering placement state");
         base.EnterState(controller);
+        CreateStructureToPlace();
+    }
+
+    private void CreateStructureToPlace()
+    {
+        structureToPlace = ItemSpawnManager.instance.CreateStructure(controllerReference.inventorySystem.selectedStructureData);
+        Debug.Log("Creating a structure to palce");
     }
 
     public override void HandleEscapeInput()

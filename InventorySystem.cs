@@ -22,6 +22,9 @@ public class InventorySystem : MonoBehaviour, ISavable
     public string EquippedWeaponId { get => inventoryData.EquippedItemId; }
     public bool InventoryVisible { get => uiInventory.IsInventoryVisible; }
 
+    public StructureItemSO selectedStructureData = null;
+    public int selectedStructureUiId = 0;
+
     private void Awake()
     {
         uiInventory = GetComponent<UiInventory>(); 
@@ -106,6 +109,8 @@ public class InventorySystem : MonoBehaviour, ISavable
     {
         if(itemData.GetItemType() == ItemType.Structure)
         {
+            selectedStructureUiId = ui_id;
+            selectedStructureData = (StructureItemSO)itemData;
             OnStructureUse.Invoke();
             return;
         }
