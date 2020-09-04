@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,5 +28,10 @@ public class PlacementHelper : MonoBehaviour
             rb.position = playerTransform.position + playerTransform.forward;
             rb.MoveRotation(Quaternion.LookRotation(playerTransform.forward));
         }
+    }
+
+    internal void DestroyStructure()
+    {
+        Destroy(gameObject);
     }
 }

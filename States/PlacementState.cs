@@ -76,5 +76,6 @@ public class PlacementState : MovementState
     private void DestroyPlacedObject()
     {
         Debug.Log("Destroying placed object");
+        placementHelper.DestroyStructure();
     }
 }

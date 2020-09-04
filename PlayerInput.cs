@@ -119,7 +119,7 @@ public class PlayerInput : MonoBehaviour
 
     private void GetMovementDirection()
     {
-        MovementInputVector = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        MovementInputVector = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         //Debug.Log(MovementInputVector);
     }
 
