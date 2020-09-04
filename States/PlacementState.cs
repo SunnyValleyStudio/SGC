@@ -23,7 +23,11 @@ public class PlacementState : MovementState
     public override void HandleEscapeInput()
     {
         Debug.Log("Exiting placementState");
-        DestroyPlacedObject();
+        if (placementHelper.isActiveAndEnabled)
+        {
+            DestroyPlacedObject();
+        }
+        
         controllerReference.TransitionToState(controllerReference.movementState);
     }
 
@@ -42,6 +46,15 @@ public class PlacementState : MovementState
 
     public override void HandlePrimaryAction()
     {
+        if (placementHelper.CorrectLocation)
+        {
+            var structureComponent = placementHelper.PrepareForPlacement();
+            structureComponent.SetData(controllerReference.inventorySystem.selectedStructureData);
+            placementHelper.enabled = false;
+            controllerReference.inventorySystem.RemoveSelectedStructureFromInventory();
+            controllerReference.buildingPlacementStroage.SaveStructureReference(structureComponent);
+            HandleEscapeInput();
+        }
     }
 
     public override void HandleHotbarInput(int hotbarKey)

@@ -55,6 +55,28 @@ public class InventorySystem : MonoBehaviour, ISavable
         }
     }
 
+    internal void RemoveSelectedStructureFromInventory()
+    {
+        RemoveItemFromInventory(selectedStructureUiId);
+        selectedStructureUiId = 0;
+        selectedStructureData = null;
+    }
+
+    private void RemoveItemFromInventory(int ui_id)
+    {
+        inventoryData.TakeOneFromItem(ui_id);
+        if (inventoryData.CheckIfSelectedItemIsEmpty(ui_id))
+        {
+            ClearUIElement(ui_id);
+            inventoryData.RemoveItemFromInventory(ui_id);
+        }
+        else
+        {
+            UpdateUI(ui_id, inventoryData.GetItemCountFor(ui_id));
+        }
+        onInventoryStateChanged.Invoke();
+    }
+
     internal void CraftAnItem(RecipeSO recipe)
     {
         foreach (var recipeIngredient in recipe.ingredientsRequired)
@@ -116,16 +138,7 @@ public class InventorySystem : MonoBehaviour, ISavable
         }
         if (interactionManager.UseItem(itemData))
         {
-            inventoryData.TakeOneFromItem(ui_id);
-            if (inventoryData.CheckIfSelectedItemIsEmpty(ui_id))
-            {
-                ClearUIElement(ui_id);
-                inventoryData.RemoveItemFromInventory(ui_id);
-            }else
-            {
-                UpdateUI(ui_id, inventoryData.GetItemCountFor(ui_id));
-            }
-            onInventoryStateChanged.Invoke();
+            RemoveItemFromInventory(ui_id);
         }else if (interactionManager.EquipItem(itemData))
         {
             DeselectCurrentItem();

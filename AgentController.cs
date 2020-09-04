@@ -21,6 +21,8 @@ public class AgentController : MonoBehaviour
 
     public AudioSource audioSource;
 
+    public BuildingPlacementStorage buildingPlacementStroage;
+
     BaseState currentState;
     public readonly BaseState movementState = new MovementState();
     public readonly BaseState jumpState = new JumpState();

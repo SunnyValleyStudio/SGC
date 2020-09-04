@@ -1,18 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Structure : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public StructureItemSO Data { get; private set; }
 
-    // Update is called once per frame
-    void Update()
+    internal void SetData(StructureItemSO selectedStructureData)
     {
-        
+        Data = selectedStructureData;
     }
 }
