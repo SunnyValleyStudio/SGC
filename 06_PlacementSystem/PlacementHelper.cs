@@ -20,6 +20,11 @@ public class PlacementHelper : MonoBehaviour
 
     Material m_material;
 
+    float lowestYHeight = 0;
+
+    public bool CorrectLocation { get; private set; }
+    private bool stopMovement = false;
+
     private void Start()
     {
         layerMask.value = 1 << LayerMask.NameToLayer("Ground");
@@ -38,14 +43,44 @@ public class PlacementHelper : MonoBehaviour
         m_material = GetComponent<Renderer>().material;
     }
 
-    public void PrepareForPlacement()
+    public Structure PrepareForPlacement()
     {
+        stopMovement = true;
         MaterialHelper.SwapToOriginalMaterial(gameObject, objectMaterials);
+        Destroy(rb);
+        boxCollider.isTrigger = false;
+        var structureComponent = GetComponent<Structure>();
+        if(structureComponent == null)
+        {
+            structureComponent = gameObject.AddComponent<Structure>();
+        }
+        return structureComponent;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.layer != LayerMask.NameToLayer("Pickable") && other.gameObject.layer != LayerMask.NameToLayer("Player") && other.gameObject.layer != LayerMask.NameToLayer("Ground"))
+        {
+            if(collisions.Contains(other)!= true)
+            {
+                collisions.Add(other);
+                ChangeMaterialColor(Color.red);
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        collisions.Remove(other);
+        if(collisions.Count == 0)
+        {
+            ChangeMaterialColor(Color.green);
+        }
     }
 
     private void FixedUpdate()
     {
-        if(playerTransform != null)
+        if(stopMovement == false && playerTransform != null)
         {
             var positionToMove = playerTransform.position + playerTransform.forward;
             rb.position = positionToMove;
@@ -78,16 +113,24 @@ public class PlacementHelper : MonoBehaviour
                     float[] heightValuesList = { hit1.point.y, hit2.point.y , hit3.point.y , hit4.point.y };
                     var min = heightValuesList.Min();
                     var max = heightValuesList.Max();
-                    if(max-min > maxheightDifference)
+                    if(min < lowestYHeight)
+                    {
+                        ChangeMaterialColor(Color.red);
+                        Debug.Log("Cant place that low");
+                        CorrectLocation = false;
+                    }
+                    else if(max-min > maxheightDifference)
                     {
                         Debug.Log("Too bigh height difference");
                         ChangeMaterialColor(Color.red);
+                        CorrectLocation = false;
                     }
                     else
                     {
                         Debug.Log("Placement position correct");
                         ChangeMaterialColor(Color.green);
                         rb.position = new Vector3(positionToMove.x, (max + min) / 2f, positionToMove.z);
+                        CorrectLocation = true;
                     }
 
                 }
