@@ -12,6 +12,8 @@ public class ItemSpawnManager : MonoBehaviour
 
     public Transform itemsSpawnersParent;
 
+    public Material transparentMaterial;
+
     private void Awake()
     {
         if (instance == null)

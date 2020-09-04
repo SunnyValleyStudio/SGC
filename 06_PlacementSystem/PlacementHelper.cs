@@ -11,6 +11,8 @@ public class PlacementHelper : MonoBehaviour
     Rigidbody rb;
     public List<Collider> collisions = new List<Collider>();
 
+    List<Material[]> objectMaterials = new List<Material[]>();
+
     private float raycastMaxDistance = 5f;
     private float maxheightDifference = .3f;
 
@@ -30,6 +32,12 @@ public class PlacementHelper : MonoBehaviour
     {
         boxCollider = GetComponent<BoxCollider>();
         rb = GetComponent<Rigidbody>();
+        MaterialHelper.SwapToSelectionMaterial(gameObject, objectMaterials, ItemSpawnManager.instance.transparentMaterial);
+    }
+
+    public void PrepareForPlacement()
+    {
+        MaterialHelper.SwapToOriginalMaterial(gameObject, objectMaterials);
     }
 
     private void FixedUpdate()
