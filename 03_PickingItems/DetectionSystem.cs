@@ -43,7 +43,7 @@ public class DetectionSystem : MonoBehaviour
         {
             if (currentCollider != null)
             {
-                SwapToOriginalMaterial();
+                MaterialHelper.SwapToOriginalMaterial(currentCollider.gameObject, currentColliderMaterialsList);
                 currentCollider = null;
             }
             return;
@@ -51,65 +51,17 @@ public class DetectionSystem : MonoBehaviour
         if (currentCollider == null)
         {
             currentCollider = collidersList[0];
-            SwapToSelectionMaterial();
-        }else if (collidersList.Contains(currentCollider) == false)
+            MaterialHelper.SwapToSelectionMaterial(currentCollider.gameObject, currentColliderMaterialsList, selectionMaterial);
+        }
+        else if (collidersList.Contains(currentCollider) == false)
         {
-            SwapToOriginalMaterial();
+            MaterialHelper.SwapToOriginalMaterial(currentCollider.gameObject, currentColliderMaterialsList);
             currentCollider = collidersList[0];
-            SwapToSelectionMaterial();
+            MaterialHelper.SwapToSelectionMaterial(currentCollider.gameObject,currentColliderMaterialsList,selectionMaterial);
         }
     } 
 
-    private void SwapToSelectionMaterial()
-    {
-        currentColliderMaterialsList.Clear();
-        if (currentCollider.transform.childCount > 0)
-        {
-            foreach (Transform child in currentCollider.transform)
-            {
-                PrepareRendererToSwapMaterials();
-            }
-        }
-        else
-        {
-            PrepareRendererToSwapMaterials();
-
-        }
-    }
-
-    private void PrepareRendererToSwapMaterials()
-    {
-        var renderer = currentCollider.GetComponent<Renderer>();
-        currentColliderMaterialsList.Add(renderer.sharedMaterials);
-        SwapMaterials(renderer);
-    }
-
-    private void SwapMaterials(Renderer renderer)
-    {
-        Material[] matArray = new Material[renderer.materials.Length];
-        for (int i = 0; i < matArray.Length; i++)
-        {
-            matArray[i] = selectionMaterial;
-        }
-        renderer.materials = matArray;
-    }
-
-    private void SwapToOriginalMaterial()
-    {
-        if(currentColliderMaterialsList.Count > 1)
-        {
-            for (int i = 0; i < currentColliderMaterialsList.Count; i++)
-            {
-                var renderer = currentCollider.transform.GetChild(i).GetComponent<Renderer>();
-                renderer.materials = currentColliderMaterialsList[i];
-            }
-        }
-        else
-        {
-            var renderer = currentCollider.GetComponent<Renderer>();
-            renderer.materials = currentColliderMaterialsList[0];
-        }
-    }
+    
 
     public void DetectColliderInFront()
     {
