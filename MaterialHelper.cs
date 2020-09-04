@@ -12,7 +12,10 @@ public static class MaterialHelper
         {
             foreach (Transform child in objectToModify.transform)
             {
-                PrepareRendererToSwapMaterials(child.gameObject, currentColliderMaterialsList, selectionMaterial);
+                if (child.gameObject.activeSelf)
+                {
+                    PrepareRendererToSwapMaterials(child.gameObject, currentColliderMaterialsList, selectionMaterial);
+                }
             }
         }
     }
@@ -42,8 +45,11 @@ public static class MaterialHelper
         {
             for (int i = 0; i < currentColliderMaterialsList.Count; i++)
             {
-                var childRenderer = objectToModify.transform.GetChild(i).GetComponent<Renderer>();
-                childRenderer.materials = currentColliderMaterialsList[i];
+                if (objectToModify.transform.GetChild(i).gameObject.activeSelf)
+                {
+                    var childRenderer = objectToModify.transform.GetChild(i).GetComponent<Renderer>();
+                    childRenderer.materials = currentColliderMaterialsList[i];
+                }
             }
         }
     }
