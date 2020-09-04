@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlacementState : MovementState
 {
-    GameObject structureToPlace;
+    PlacementHelper placementHelper;
     public override void EnterState(AgentController controller)
     {
         Debug.Log("Entering placement state");
@@ -15,7 +15,8 @@ public class PlacementState : MovementState
 
     private void CreateStructureToPlace()
     {
-        structureToPlace = ItemSpawnManager.instance.CreateStructure(controllerReference.inventorySystem.selectedStructureData);
+        placementHelper = ItemSpawnManager.instance.CreateStructure(controllerReference.inventorySystem.selectedStructureData);
+        placementHelper.PrepareForMovement();
         Debug.Log("Creating a structure to palce");
     }
 

@@ -24,10 +24,16 @@ public class ItemSpawnManager : MonoBehaviour
         }
     }
 
-    internal GameObject CreateStructure(StructureItemSO structureData)
+    internal PlacementHelper CreateStructure(StructureItemSO structureData)
     {
         var structure = Instantiate(structureData.model, playerTransform.position + playerTransform.forward, Quaternion.identity);
-        return structure;
+        var collider = structure.AddComponent<BoxCollider>();
+        collider.isTrigger = true;
+        var rb = structure.AddComponent<Rigidbody>();
+        rb.isKinematic = true;
+        var placementHelper = structure.AddComponent<PlacementHelper>();
+        placementHelper.Initialize(playerTransform);
+        return placementHelper;
     }
 
     private void Start()
