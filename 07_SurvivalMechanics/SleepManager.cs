@@ -8,9 +8,11 @@ public class SleepManager : MonoBehaviour
     [Range(0.1f,1)]
     public float timeModifier = 1;
     public UiSleep uiSleep;
+    private AgentController playerController;
     private void Start()
     {
         uiSleep = GetComponent<UiSleep>();
+        playerController = FindObjectOfType<AgentController>();
     }
     internal void ShowUI()
     {
@@ -23,7 +25,7 @@ public class SleepManager : MonoBehaviour
 
     public void SaveBed()
     {
-        FindObjectOfType<AgentController>().SaveSpawnPoint();
+        playerController.SaveSpawnPoint();
     }
 
     public void Exit()
@@ -46,9 +48,10 @@ public class SleepManager : MonoBehaviour
         {
             yield return new WaitForSecondsRealtime(timeModifier);
             Debug.Log("Slept " + i+"/" + seconds + " hours");
+            playerController.playerStatsManager.Health += 20;
+            playerController.playerStatsManager.Stamina += 20;
         }
         ItemSpawnManager.instance.RespawnItems();
-        Debug.Log("Restor player stats");
         uiSleep.ToggleAllButtons();
     }
 

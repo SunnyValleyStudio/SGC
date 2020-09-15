@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class InteractionManager : MonoBehaviour
 {
+    public AgentController playerController;
     public bool UseItem(ItemSO itemData)
     {
         var itemType = itemData.GetItemType();
@@ -14,7 +15,8 @@ public class InteractionManager : MonoBehaviour
                 throw new System.Exception("Item can't have itemtype of NONO");
             case ItemType.Food:
                 FoodItemSO foodData = (FoodItemSO)itemData;
-                Debug.Log("Boosting player stats with food");
+                playerController.playerStatsManager.Health += foodData.healthBoost;
+                playerController.playerStatsManager.Stamina += foodData.energyBonus;
                 return true;
             case ItemType.Weapon:
                 WeaponItemSO weapon = (WeaponItemSO)itemData;

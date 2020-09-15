@@ -27,6 +27,8 @@ public class AgentController : MonoBehaviour, ISavable
 
     public Vector3? spawnPosition = null;
 
+    public PlayerStatsManager playerStatsManager;
+
     BaseState currentState;
     public readonly BaseState movementState = new MovementState();
     public readonly BaseState jumpState = new JumpState();
