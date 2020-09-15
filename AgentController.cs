@@ -162,11 +162,17 @@ public class AgentController : MonoBehaviour, ISavable
 
     public string GetJsonDataToSave()
     {
-        var data = new PositionStruct
+        var positionData = new PositionStruct
         {
             x = spawnPosition.Value.x,
             y = spawnPosition.Value.y,
             z = spawnPosition.Value.z
+        };
+        var data = new PlayerData
+        {
+            playerPosition = positionData,
+            stamina = playerStatsManager.Stamina,
+            health = playerStatsManager.Health
         };
 
         return JsonConvert.SerializeObject(data);
@@ -174,9 +180,11 @@ public class AgentController : MonoBehaviour, ISavable
 
     public void LoadJsonData(string jsonData)
     {
-        var data = JsonConvert.DeserializeObject<PositionStruct>(jsonData);
-        spawnPosition = new Vector3(data.x, data.y, data.z);
+        var data = JsonConvert.DeserializeObject<PlayerData>(jsonData);
+        spawnPosition = new Vector3(data.playerPosition.x, data.playerPosition.y, data.playerPosition.z);
         RespawnPlayer();
+        playerStatsManager.Health = data.health;
+        playerStatsManager.Stamina = data.stamina;
     }
 }
 
@@ -184,4 +192,12 @@ public class AgentController : MonoBehaviour, ISavable
 public struct PositionStruct
 {
     public float x, y, z;
+}
+
+[Serializable]
+public struct PlayerData
+{
+    public PositionStruct playerPosition;
+    public float health;
+    public float stamina;
 }
