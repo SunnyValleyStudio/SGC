@@ -17,6 +17,10 @@ public class EnemyBehaviour : MonoBehaviour, IHIttable
     private int health;
     public int Health => health;
 
+    public GameObject enemyModel;
+    [Range(0, 1)]
+    public float hurtFeedbackTime = 0.2f;
+
     private void Start()
     {
         enemyPatrolArea.OnPlayerInRange += ChasePlayer;
@@ -48,6 +52,8 @@ public class EnemyBehaviour : MonoBehaviour, IHIttable
 
     public void Die()
     {
+        StopAllCoroutines();
+        MaterialHelper.DisableEmission(enemyModel);
         this.enabled = false;
     }
 
@@ -70,14 +76,26 @@ public class EnemyBehaviour : MonoBehaviour, IHIttable
 
     public void GetHit(WeaponItemSO weapon, Vector3 hitpoint)
     {
-        health -= weapon.GetDamageValue();
-        if(health <= 0)
+        if (health > 0)
         {
-            animator.SetTrigger("Die");
-            navMehsAgent.isStopped = true;
-            playerInRange = false;
-            enemyPatrolArea.enabled = false;
+            health -= weapon.GetDamageValue();
+            StartCoroutine(HurtCoroutine());
+            if (health <= 0)
+            {
+                animator.SetTrigger("Die");
+                navMehsAgent.isStopped = true;
+                playerInRange = false;
+                enemyPatrolArea.enabled = false;
 
+            }
         }
+        
+    }
+
+    IEnumerator HurtCoroutine()
+    {
+        MaterialHelper.EnableEmission(enemyModel, Color.red);
+        yield return new WaitForSeconds(hurtFeedbackTime);
+        MaterialHelper.DisableEmission(enemyModel);
     }
 }
