@@ -28,7 +28,7 @@ public class ItemSpawnManager : MonoBehaviour
 
     internal PlacementHelper CreateStructure(StructureItemSO structureData)
     {
-        var structure = Instantiate(structureData.model, playerTransform.position + playerTransform.forward, Quaternion.identity);
+        var structure = Instantiate(structureData.GetPrefab(), playerTransform.position + playerTransform.forward, Quaternion.identity);
         var collider = structure.AddComponent<BoxCollider>();
         collider.isTrigger = true;
         var rb = structure.AddComponent<Rigidbody>();
@@ -89,13 +89,13 @@ public class ItemSpawnManager : MonoBehaviour
 
     internal void CreateItemInPlace(Vector3 hitpoint, MaterialSO itemToSpawn, int resourceCountToSpawn)
     {
-        var itemGameObject = Instantiate(itemToSpawn.model, hitpoint + Vector3.up * 0.2f, Quaternion.identity);
+        var itemGameObject = Instantiate(itemToSpawn.GetModel(), hitpoint + Vector3.up * 0.2f, Quaternion.identity);
         PrepareItemGameObject(itemToSpawn.ID, resourceCountToSpawn, itemGameObject);
     }
 
     private void CreateItemInPlace(Vector3 randomPosition, ItemSO itemToSpawn, int count)
     {
-        var itemGameObject = Instantiate(itemToSpawn.model, randomPosition, Quaternion.identity, itemsSpawnersParent);
+        var itemGameObject = Instantiate(itemToSpawn.GetModel(), randomPosition, Quaternion.identity, itemsSpawnersParent);
         PrepareItemGameObject(itemToSpawn.ID, count, itemGameObject);
     }
 

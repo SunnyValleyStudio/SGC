@@ -8,7 +8,8 @@ public abstract class ItemSO : ScriptableObject, ISerializationCallbackReceiver
     public string ID;
     public string itemName;
     public Sprite imageSprite;
-    public GameObject model;
+    [SerializeField]
+    protected GameObject model;
     public bool isStackable;
     [Range(1,100)]
     public int stackLimit = 100;
@@ -44,6 +45,16 @@ public abstract class ItemSO : ScriptableObject, ISerializationCallbackReceiver
     public virtual bool IsUsable()
     {
         return false;
+    }
+
+    public virtual GameObject GetPrefab()
+    {
+        return model;
+    }
+
+    public GameObject GetModel()
+    {
+        return model;
     }
 }
 

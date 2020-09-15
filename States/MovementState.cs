@@ -48,7 +48,10 @@ public class MovementState : BaseState
         base.HandlePrimaryAction();
         if (controllerReference.inventorySystem.WeaponEquipped)
         {
-            controllerReference.TransitionToState(controllerReference.attackState);
+            if(controllerReference.playerStatsManager.Stamina > 0)
+            {
+                controllerReference.TransitionToState(controllerReference.attackState);
+            }
         }
         else
         {

@@ -5,6 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName ="StructureItemData", menuName ="InventoryData/StructureItemSO")]
 public class StructureItemSO : ItemSO
 {
+    [SerializeField]
+    protected GameObject prefab;
+
     private void OnEnable()
     {
         itemType = ItemType.Structure;
@@ -13,5 +16,10 @@ public class StructureItemSO : ItemSO
     public override bool IsUsable()
     {
         return true;
+    }
+
+    public override GameObject GetPrefab()
+    {
+        return prefab == null ? model : prefab;
     }
 }

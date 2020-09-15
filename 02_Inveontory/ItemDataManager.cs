@@ -58,7 +58,7 @@ public class ItemDataManager : MonoBehaviour
         {
             throw new System.Exception("ItemDataManage doesn't have " + id);
         }
-        return itemsDictionary[id].model;
+        return itemsDictionary[id].GetModel();
     }
 
     public bool IsItemUsabel(string id)

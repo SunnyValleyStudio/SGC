@@ -11,6 +11,7 @@ public class JumpState : BaseState
         base.EnterState(controller);
         delay = 0.2f;
         landingTriggerd = false;
+        controllerReference.agentAnimations.ResetTriggerLandingAnimation();
         controllerReference.movement.HandleJump();
     }
 
