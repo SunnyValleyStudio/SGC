@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,5 +14,15 @@ public class WeaponItemSO : ItemSO
     public override bool IsUsable()
     {
         return true;
+    }
+
+    internal int GetDamageValue()
+    {
+        var randomCriticalChange = UnityEngine.Random.value;
+        if(randomCriticalChange < criticalChance)
+        {
+            return damageMax * 2;
+        }
+        return UnityEngine.Random.Range(damageMin, damageMax+1);
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyBehaviour : MonoBehaviour
+public class EnemyBehaviour : MonoBehaviour, IHIttable
 {
     public EnemyPatrolArea enemyPatrolArea;
     public NavMeshAgent navMehsAgent;
@@ -13,6 +13,9 @@ public class EnemyBehaviour : MonoBehaviour
     private bool playerInRange = false;
 
     Animator animator;
+    [SerializeField]
+    private int health;
+    public int Health => health;
 
     private void Start()
     {
@@ -45,7 +48,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     public void Die()
     {
-
+        this.enabled = false;
     }
 
     private void Update()
@@ -53,15 +56,28 @@ public class EnemyBehaviour : MonoBehaviour
         if(navMehsAgent.isStopped == false)
         {
             navMehsAgent.SetDestination(target.transform.position);
+            if (playerInRange && navMehsAgent.velocity.sqrMagnitude == 0)
+            {
+                transform.LookAt(target.transform);
+                animator.SetBool("Attack", true);
+            }
+            else
+            {
+                animator.SetBool("Attack", false);
+            }
         }
-        if(playerInRange && navMehsAgent.velocity.sqrMagnitude == 0)
+    }
+
+    public void GetHit(WeaponItemSO weapon, Vector3 hitpoint)
+    {
+        health -= weapon.GetDamageValue();
+        if(health <= 0)
         {
-            transform.LookAt(target.transform);
-            animator.SetBool("Attack", true);
-        }
-        else
-        {
-            animator.SetBool("Attack", false);
+            animator.SetTrigger("Die");
+            navMehsAgent.isStopped = true;
+            playerInRange = false;
+            enemyPatrolArea.enabled = false;
+
         }
     }
 }
