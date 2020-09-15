@@ -147,6 +147,13 @@ public class AgentMovement : MonoBehaviour
         characterController.Move(moveDirection * Time.deltaTime);
     }
 
+    internal void TeleportPlayerTo(Vector3 position)
+    {
+        characterController.enabled = false;
+        transform.position = position;
+        characterController.enabled = true;
+    }
+
     private void RotateTemp()
     {
         desiredRotationAngle = Quaternion.Angle(transform.rotation, endRotationY);

@@ -1,12 +1,14 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AgentController : MonoBehaviour
+public class AgentController : MonoBehaviour, ISavable
 {
     public AgentMovement movement;
     public PlayerInput input;
+
     public HumanoidAnimations agentAnimations;
 
     public InventorySystem inventorySystem;
@@ -22,6 +24,8 @@ public class AgentController : MonoBehaviour
     public AudioSource audioSource;
 
     public BuildingPlacementStorage buildingPlacementStroage;
+
+    public Vector3? spawnPosition = null;
 
     BaseState currentState;
     public readonly BaseState movementState = new MovementState();
@@ -110,7 +114,8 @@ public class AgentController : MonoBehaviour
 
     private void Update()
     {
-        
+        if (Time.timeScale == 0)
+            return;
         currentState.Update();
     }
 
@@ -139,4 +144,42 @@ public class AgentController : MonoBehaviour
     {
         audioSource.PlayOneShot(AudioLibrary.instance.weaponWoosh);
     }
+
+    internal void SaveSpawnPoint()
+    {
+        spawnPosition = transform.position;
+    }
+
+    private void RespawnPlayer()
+    {
+        if (spawnPosition != null)
+        {
+            movement.TeleportPlayerTo(spawnPosition.Value + Vector3.up);
+        }
+    }
+
+    public string GetJsonDataToSave()
+    {
+        var data = new PositionStruct
+        {
+            x = spawnPosition.Value.x,
+            y = spawnPosition.Value.y,
+            z = spawnPosition.Value.z
+        };
+
+        return JsonConvert.SerializeObject(data);
+    }
+
+    public void LoadJsonData(string jsonData)
+    {
+        var data = JsonConvert.DeserializeObject<PositionStruct>(jsonData);
+        spawnPosition = new Vector3(data.x, data.y, data.z);
+        RespawnPlayer();
+    }
+}
+
+[Serializable]
+public struct PositionStruct
+{
+    public float x, y, z;
 }

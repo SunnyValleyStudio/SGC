@@ -14,6 +14,16 @@ public class ItemSpawner : MonoBehaviour
     public bool showGizmo = true;
     public Color gizmoColor = Color.green;
 
+    [SerializeField]
+    private bool respawnable = false;
+
+    public bool Respawnable
+    {
+        get { return respawnable; }
+    }
+
+
+
     public void OnDrawGizmos()
     {
         if(showGizmo && radius > 0)

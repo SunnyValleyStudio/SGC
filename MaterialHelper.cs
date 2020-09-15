@@ -53,4 +53,23 @@ public static class MaterialHelper
             }
         }
     }
+
+    public static void EnableEmission(GameObject gameObject, Color color)
+    {
+        var renderer = gameObject.GetComponent<Renderer>();
+        for (int i = 0; i < renderer.materials.Length; i++)
+        {
+            renderer.materials[i].EnableKeyword("_EMISSION");
+            renderer.materials[i].SetColor("_EmissionColor", color);
+        }
+    }
+
+    public static void DisableEmission(GameObject gameObject)
+    {
+        var renderer = gameObject.GetComponent<Renderer>();
+        for (int i = 0; i < renderer.materials.Length; i++)
+        {
+            renderer.materials[i].DisableKeyword("_EMISSION");
+        }
+    }
 }

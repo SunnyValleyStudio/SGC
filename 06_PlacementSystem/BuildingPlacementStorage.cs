@@ -42,6 +42,7 @@ public class BuildingPlacementStorage : MonoBehaviour, ISavable
             Quaternion rotation = Quaternion.Euler(data.rotationX, data.rotationY, data.rotationZ);
             structureReference.transform.position = position;
             structureReference.transform.rotation = rotation;
+            structureReference.SetData((StructureItemSO)itemData);
             SaveStructureReference(structureReference);
         }
     }

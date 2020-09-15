@@ -50,22 +50,39 @@ public class ItemSpawnManager : MonoBehaviour
             ItemSpawner spawner = itemSpawnerTransform.GetComponent<ItemSpawner>();
             if (spawner != null)
             {
-                Vector3 randomPosition = GenerateRandomPosition(spawner.radius);
-
-                if (spawner.singleObject && spawner.itemToSpawn.isStackable)
-                {
-                    CreateItemInPlace(itemSpawnerTransform.position + randomPosition, spawner.itemToSpawn, spawner.count);
-                }
-                else
-                {
-                    for (int i = 0; i < spawner.count; i++)
-                    {
-                        CreateItemInPlace(itemSpawnerTransform.position + randomPosition, spawner.itemToSpawn, 1);
-                        randomPosition = GenerateRandomPosition(spawner.radius);
-
-                    }
-                }
+                SpawnItems(itemSpawnerTransform, spawner);
                 yield return new WaitForEndOfFrame();
+            }
+        }
+    }
+
+    private void SpawnItems(Transform itemSpawnerTransform, ItemSpawner spawner)
+    {
+        Vector3 randomPosition = GenerateRandomPosition(spawner.radius);
+
+        if (spawner.singleObject && spawner.itemToSpawn.isStackable)
+        {
+            CreateItemInPlace(itemSpawnerTransform.position + randomPosition, spawner.itemToSpawn, spawner.count);
+        }
+        else
+        {
+            for (int i = 0; i < spawner.count; i++)
+            {
+                CreateItemInPlace(itemSpawnerTransform.position + randomPosition, spawner.itemToSpawn, 1);
+                randomPosition = GenerateRandomPosition(spawner.radius);
+
+            }
+        }
+    }
+
+    public void RespawnItems()
+    {
+        foreach (Transform itemSpawnerTransform in itemsSpawnersParent)
+        {
+            ItemSpawner spawner = itemSpawnerTransform.GetComponent<ItemSpawner>();
+            if (spawner != null && spawner.Respawnable)
+            {
+                SpawnItems(itemSpawnerTransform, spawner);
             }
         }
     }

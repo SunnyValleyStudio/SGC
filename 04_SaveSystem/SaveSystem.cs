@@ -12,7 +12,7 @@ public class SaveSystem : MonoBehaviour
 
     private void Awake()
     {
-        filePath = System.IO.Path.Combine(Application.persistentDataPath, "/savedgame1.json");
+        filePath = Application.persistentDataPath + "/savedgame1.json";
     }
 
     private void Start()

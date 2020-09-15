@@ -30,6 +30,9 @@ public class DetectionSystem : MonoBehaviour
         private set { iUsableCollider = value; }
     }
 
+    [ColorUsageAttribute(false,true)]
+    public Color usableEmissionColor;
+
 
     public Collider[] DetectObjectsInFront(Vector3 movementDirectionVector)
     {
@@ -51,12 +54,27 @@ public class DetectionSystem : MonoBehaviour
             var usable = collider.GetComponent<IUsable>();
             if(usable != null && isUsableFound == false)
             {
+                if(IUsableCollider != null)
+                {
+                    MaterialHelper.DisableEmission(iUsableCollider.gameObject);
+                }
                 IUsableCollider = collider;
+                MaterialHelper.EnableEmission(IUsableCollider.gameObject, usableEmissionColor);
                 isUsableFound = true;
+                if (currentCollider != null)
+                {
+                    MaterialHelper.SwapToOriginalMaterial(currentCollider.gameObject, currentColliderMaterialsList);
+                    currentCollider = null;
+                }
+                return;
             }
         }
         if(isUsableFound == false)
         {
+            if (IUsableCollider != null)
+            {
+                MaterialHelper.DisableEmission(iUsableCollider.gameObject);
+            }
             IUsableCollider = null;
         }
         if (collidersList.Count == 0)
