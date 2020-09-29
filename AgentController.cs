@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -52,6 +51,7 @@ public class AgentController : MonoBehaviour, ISavable
 
     private void Start()
     {
+        spawnPosition = transform.position;
         inventorySystem.OnStructureUse += StructureUseCallback;
         craftingSystem.onCheckResourceAvailability += inventorySystem.CheckResourceAvailability;
         craftingSystem.onCheckInventoryFull += inventorySystem.CheckInventoryFull;
@@ -175,12 +175,13 @@ public class AgentController : MonoBehaviour, ISavable
             health = playerStatsManager.Health
         };
 
-        return JsonConvert.SerializeObject(data);
+        var dataToSave = JsonUtility.ToJson(data);
+        return dataToSave;
     }
 
     public void LoadJsonData(string jsonData)
     {
-        var data = JsonConvert.DeserializeObject<PlayerData>(jsonData);
+        var data = JsonUtility.FromJson<PlayerData>(jsonData);
         spawnPosition = new Vector3(data.playerPosition.x, data.playerPosition.y, data.playerPosition.z);
         RespawnPlayer();
         playerStatsManager.Health = data.health;

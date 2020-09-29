@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,14 +22,21 @@ public class SaveSystem : MonoBehaviour
 
     public void SaveObjects()
     {
-        Dictionary<string, string> dataDictionary = new Dictionary<string, string>();
+        List<string> classNames = new List<string>();
+        List<string> classData = new List<string>();
         foreach (var item in itemsToSave)
         {
             var data = item.GetJsonDataToSave();
-            dataDictionary.Add(item.GetType().ToString(), data);
+            classNames.Add(item.GetType().ToString());
+            classData.Add(data);
         }
+        var dataToSave = new SavedData
+        {
+            classNames = classNames,
+            classData = classData
+        };
 
-        var jsonString = JsonConvert.SerializeObject(dataDictionary);
+        var jsonString = JsonUtility.ToJson(dataToSave);
 
         System.IO.File.WriteAllText(filePath, jsonString);
         Debug.Log(filePath);
@@ -42,13 +48,14 @@ public class SaveSystem : MonoBehaviour
         {
             yield return new WaitForSecondsRealtime(2);
             var jsonSavedData = System.IO.File.ReadAllText(filePath);
-            Dictionary<string, string> dataDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonSavedData);
+            SavedData savedData = JsonUtility.FromJson<SavedData>(jsonSavedData);
+
             foreach (var item in itemsToSave)
             {
-                var key = item.GetType().ToString();
-                if (dataDictionary.ContainsKey(key))
+                var className = item.GetType().ToString();
+                if (savedData.classNames.Contains(className))
                 {
-                    item.LoadJsonData(dataDictionary[key]);
+                    item.LoadJsonData(savedData.classData[savedData.classNames.IndexOf(className)]);
                 }
                 yield return new WaitForSecondsRealtime(0.1f);
             }
@@ -59,5 +66,11 @@ public class SaveSystem : MonoBehaviour
     public bool CheckSavedDataExists()
     {
         return System.IO.File.Exists(filePath);
+    }
+
+    [Serializable]
+    struct SavedData
+    {
+        public List<string> classNames, classData;
     }
 }

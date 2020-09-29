@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,14 +24,18 @@ public class BuildingPlacementStorage : MonoBehaviour, ISavable
                 rotationZ = euler.z,
             });
         }
-        string data = JsonConvert.SerializeObject(savedStructuresList);
+        var dataToSave = new BuildingSavedData
+        {
+            savedStrcturesDataList = savedStructuresList
+        };
+        string data = JsonUtility.ToJson(dataToSave);
         return data;
     }
 
     public void LoadJsonData(string jsonData)
     {
-        List<SavedStructureData> savedStructuresList = JsonConvert.DeserializeObject<List<SavedStructureData>>(jsonData);
-        foreach (var data in savedStructuresList)
+        BuildingSavedData savedData = JsonUtility.FromJson<BuildingSavedData>(jsonData);
+        foreach (var data in savedData.savedStrcturesDataList)
         {
             var itemData = ItemDataManager.instance.GetItemData(data.ID);
             var structureToPlace = ItemSpawnManager.instance.CreateStructure((StructureItemSO)itemData);
@@ -62,4 +65,10 @@ public struct SavedStructureData
     public float rotationX, rotationY, rotationZ;
     //ID
     public string ID;
+}
+
+[Serializable]
+public struct BuildingSavedData
+{
+    public List<SavedStructureData> savedStrcturesDataList;
 }
